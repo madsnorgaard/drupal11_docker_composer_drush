@@ -32,7 +32,7 @@ Rename your project or set your frontpage url:
 #### Fix file and cache permissions:
 
    ```sh
-   $ chmod 777 -R web/sites/default/files`
+   $ chmod 777 -R web/sites/default/files
    ```
 
 
