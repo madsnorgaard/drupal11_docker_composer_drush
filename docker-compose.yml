@@ -1,0 +1,53 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:8
+    container_name: drupal_db
+    env_file:
+    - .env
+    restart: always
+# Initiating database dump
+    volumes:
+      - ./sql/:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: "${DB}"
+      MYSQL_USER: "${DBU}"
+      MYSQL_PASSWORD: "${DBP}"
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+
+  phpmyadmin:
+    container_name: drupal_db_admin
+    image: phpmyadmin/phpmyadmin
+    env_file:
+    - .env
+    ports:
+      - 9999:80
+    restart: always
+    environment:
+      PMA_HOST: "${DBH}"
+      PMA_USER: "${DBU}"
+      PMA_PASSWORD: "${DBP}"
+      PMA_ARBITRARY: "1"
+
+  drupal:
+    container_name: drupal
+    env_file:
+    - .env
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    restart: always
+    ports:
+      - 9998:80
+    working_dir: /opt
+# The :z option is required and tells Docker that the volume content will be shared between containers.
+    volumes:
+      - .:/opt:z
+    environment:
+      HOST: "${DBH}"
+      DBASE: "${DB}"
+      USER: "${DBU}"
+      PASS: "${DBP}"
+# Command to fetch all dependencies of Drupal 9 install. Remove /var/www/html directory and link /opt/web to /var/var/www/. Run Drupal9 install with apache.
+    command: bash -c "composer update && rm /var/www/html && ln -s /opt/web /var/www/html && /usr/local/bin/apache2-foreground"
