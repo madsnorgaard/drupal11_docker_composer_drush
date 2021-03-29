@@ -26,8 +26,8 @@ phpMyAdmin will for development purposes be available via [localhost:9999](http:
 Rename your project or set your frontpage url:
 
 - [go to your basic settings page via GUI](http://localhost:9998/admin/config/system/site-information)
-- fil in the field "Default front page" with `/node`
-- [visit the fronpage](http://localhost:9998/)
+- fill in the field "Default front page" with `/node`
+- [visit the frontpage](http://localhost:9998/)
 
 #### Fix file and cache permissions:
 
