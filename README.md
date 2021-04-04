@@ -47,7 +47,7 @@ To install modules or other dependencies strictly use Composer. Installed depend
 Use `composer require` to add and install new packages. Alternatively add the requirement to `composer.json` and run `composer install`.
    
    ```sh
-    $ docker-compose exec drupal composer require "vendor/package:2.*"
+    $ docker-compose exec -T drupal composer require "vendor/package:2.*"
    ```
 
 #### Updating dependencies
@@ -55,7 +55,7 @@ Use `composer require` to add and install new packages. Alternatively add the re
 When a version update is needed, use `composer update vendor/package`. 
     
    ```sh
-   $ docker-compose exec -e COMPOSER_MEMORY_LIMIT=-1 drupal composer update vendor/package
+   $ docker-compose exec -T drupal composer update vendor/package
    ```
 
 On first run, the `composer.lock` file was generated using `composer update` without further parameters.
@@ -71,6 +71,6 @@ On first run, the `composer.lock` file was generated using `composer update` wit
 Run Drush commands using - this command provides a full list of useful Drush commands:
 
    ```sh
-   $ docker-compose exec drupal ./drush
+   $ docker-compose exec -T drupal ./drush
    ```
 Full list of commands in [Drush 9](https://drushcommands.com/drush-9x/). A list such as this one is not available yet fir Drush 10 but should suffice.
