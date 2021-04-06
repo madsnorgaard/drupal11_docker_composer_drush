@@ -35,6 +35,15 @@ Rename your project or set your frontpage url:
    $ chmod 777 -R web/sites/default/files
    ```
 
+#### Configure trusted hosts in web/sites/default/settings.php
+   For more information on how to write this, see the section for [Trusted Host settings](https://www.drupal.org/docs/installing-drupal/trusted-host-settings)
+   in the official Drupal installation guide.
+   ```php
+   // web/sites/default/settings.php
+
+   $settings['trusted_host_patterns'] = [''];
+   ```
+
 
 ### Using Composer
 
