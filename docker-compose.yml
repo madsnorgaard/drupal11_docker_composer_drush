@@ -1,45 +1,62 @@
 version: '3.1'
 
+networks:
+  web:
+    external: true
+  internal:
+    external: false
+
 services:
-  db:
+  drupal9_db:
     image: mysql:8
-    container_name: drupal_db
+    container_name: drupal9_db
     env_file:
     - .env
     restart: always
 # Initiating database dump
-    volumes:
-      - ./sql/:/docker-entrypoint-initdb.d
+#    volumes:
+      #- ./sql/:/docker-entrypoint-initdb.d:rw
     environment:
       MYSQL_DATABASE: "${DB}"
       MYSQL_USER: "${DBU}"
       MYSQL_PASSWORD: "${DBP}"
       MYSQL_RANDOM_ROOT_PASSWORD: "1"
-
+      MYSQL_INITDB_SKIP_TZINFO: "yes"
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
+    user: mysql
+  
   phpmyadmin:
-    container_name: drupal_db_admin
+    container_name: drupal9_db_admin
     image: phpmyadmin/phpmyadmin
     env_file:
     - .env
-    ports:
-      - 9999:80
     restart: always
     environment:
       PMA_HOST: "${DBH}"
       PMA_USER: "${DBU}"
       PMA_PASSWORD: "${DBP}"
       PMA_ARBITRARY: "1"
+    labels:
+      - traefik.http.routers.drupal9_phpmyadmin.rule=Host(`phpmyadmin.drupal.madsnorgaard.net`)
+      - traefik.http.routers.drupal9_phpmyadmin.tls=true
+      - traefik.http.routers.drupal9_phpmyadmin.tls.certresolver=lets-encrypt
+      - traefik.port=8080
+    networks:
+      - internal
+    depends_on:
+      - drupal9_db
 
-  drupal:
-    container_name: drupal
+  drupal9:
+    container_name: drupal9
     env_file:
     - .env
     build:
       context: .
       dockerfile: docker/Dockerfile
     restart: always
-    ports:
-      - 9998:80
     working_dir: /opt
 # The :z option is required and tells Docker that the volume content will be shared between containers.
     volumes:
@@ -49,5 +66,24 @@ services:
       DBASE: "${DB}"
       USER: "${DBU}"
       PASS: "${DBP}"
+    labels:
+      - traefik.enable=true
+      # Entry point for http
+      - traefik.http.routers.drupal9.entrypoints=web
+      - traefik.http.routers.drupal9.rule=Host(`drupal.madsnorgaard.net`)
+      - traefik.http.routers.drupal9.service=drupal9
+      - traefik.http.services.drupal9.loadbalancer.server.port=80
+      # Entry Point for https
+      - traefik.http.routers.drupal9-secure.entrypoints=websecure
+      - traefik.http.routers.drupal9-secure.rule=Host(`drupal.madsnorgaard.net`)
+      - traefik.http.routers.drupal9-secure.service=drupal9-secure
+      - traefik.http.services.drupal9-secure.loadbalancer.server.port=80
+      # Enable TLS
+      - traefik.http.routers.drupal9-secure.tls=true
+      - traefik.http.routers.drupal9-secure.tls.certresolver=lets-encrypt
+
+    networks:
+      - internal
+      - web
 # Command to fetch all dependencies of Drupal 9 install. Remove /var/www/html directory and link /opt/web to /var/var/www/. Run Drupal9 install with apache.
-    command: bash -c "composer update && rm /var/www/html && ln -s /opt/web /var/www/html && /usr/local/bin/apache2-foreground"
+    command: bash -c "composer update && rm /var/www/html && ln -s /opt/web /var/www/html && chmod 777 -R web/sites/default/files && /usr/local/bin/apache2-foreground"
