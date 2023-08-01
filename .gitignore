@@ -1,5 +1,67 @@
-vendor
-web/core
-web/modules
+config/         .editorconfig   logs/           redis/          vendor/
+composer.lock   drupal/         .gitattributes  private/        solr/           web/
+
+
+
+# Hosting data
+data/composer.json
+data/composer.lock
+data/.editorconfig
+data/logs/
+data/redis/
+data/vendor/
+data/drupal/
+data/.gitattributes
+data/private/
+data/web/
+
+# Drupal files we get from Composer and scaffolding
+data/drupal/vendor
+data/drupal/web/core
+data/drupal/web/modules/contrib
+data/drupal/web/themes/contrib
+data/drupal/web/profiles/contrib
+data/drupal/web/libraries
+.editorconfig
+.gitattributes
+data/drupal/web/.csslintrc
+data/drupal/web/.eslintignore
+data/drupal/web/.eslintrc.json
+data/drupal/web/.ht.router.php
+data/drupal/web/.htaccess
+data/drupal/web/autoload.php
+data/drupal/web/example.gitignore
+data/drupal/web/index.php
+data/drupal/web/INSTALL.txt
+data/drupal/web/README.txt
+data/drupal/web/robots.txt
+data/drupal/web/update.php
+data/drupal/web/web.config
+data/drupal/web/modules/README.txt
+data/drupal/web/profiles/README.txt
+data/drupal/web/sites/example.settings.local.php
+data/drupal/web/sites/example.sites.php
+data/drupal/web/sites/README.txt
+data/drupal/web/sites/default*
+data/drupal/web/themes/README.txt
+
+# File system directories
+data/drupal/web/sites/*/files
+data/drupal/web/sites/*/private
+
+# Ignore paths that contain user-generated content.
+# */files
+*/private
+
+# .env file with secrets
 .env
+
+# Phpstorm
 .idea
+
+# vscode
+.vscode
+
+# Database data and dumps
+*.sql
+/sql

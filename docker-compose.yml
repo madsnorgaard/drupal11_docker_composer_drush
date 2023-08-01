@@ -1,23 +1,32 @@
-version: '3.1'
+version: '3.3'
+
+networks:
+  web:
+    external: true
+  internal:
+    external: false
 
 services:
-  db:
-    image: mysql:8
-    container_name: drupal_db
+  madsnorgaard_drupal_db:
+    image: mariadb:11
+    container_name: madsnorgaard_drupal_db
     env_file:
     - .env
     restart: always
-# Initiating database dump
-    volumes:
-      - ./sql/:/docker-entrypoint-initdb.d
     environment:
-      MYSQL_DATABASE: "${DB}"
-      MYSQL_USER: "${DBU}"
-      MYSQL_PASSWORD: "${DBP}"
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASS}"
       MYSQL_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - ./sql:/var/lib/mysql
+    labels:
+      - "traefik.enable=false" # Disable Traefik for this service
+    networks:
+      - internal
 
   phpmyadmin:
-    container_name: drupal_db_admin
+    container_name: madsnorgaard_drupal_db_admin
     image: phpmyadmin/phpmyadmin
     env_file:
     - .env
@@ -25,13 +34,22 @@ services:
       - 9999:80
     restart: always
     environment:
-      PMA_HOST: "${DBH}"
-      PMA_USER: "${DBU}"
-      PMA_PASSWORD: "${DBP}"
+      PMA_HOST: "${DB_HOST}"
+      PMA_USER: "${DB_USER}"
+      PMA_PASSWORD: "${DB_PASS}"
       PMA_ARBITRARY: "1"
+    labels:
+      - "traefik.http.routers.madsnorgaard_drupal_phpmyadmin.rule=Host(`phpmyadmin.drupal.madsnorgaard.net`)"
+      - "traefik.http.routers.madsnorgaard_drupal_phpmyadmin.tls=true"
+      - "traefik.http.routers.madsnorgaard_drupal_phpmyadmin.tls.certresolver=lets-encrypt"
+    networks:
+      - internal
+      - web
+    depends_on:
+      - madsnorgaard_drupal_db
 
   drupal:
-    container_name: drupal
+    container_name: madsnorgaard_drupal
     env_file:
     - .env
     build:
@@ -40,14 +58,77 @@ services:
     restart: always
     ports:
       - 9998:80
-    working_dir: /opt
-# The :z option is required and tells Docker that the volume content will be shared between containers.
+    working_dir: /opt/drupal
+    # Adding persistent volumes for Drupal
     volumes:
-      - .:/opt:z
+      - ./data:/opt/drupal
+      - ./composer.json:/opt/drupal/composer.json
+      - ./composer.lock:/opt/drupal/composer.lock
+      - ./settings.php:/opt/drupal/web/sites/default/settings.php
+      - ./data/drupal/private:/opt/drupal/private
+      - ./data/drupal/files:/opt/drupal/web/sites/default/files
+      - ./data/drupal/logs:/opt/drupal/logs
     environment:
-      HOST: "${DBH}"
-      DBASE: "${DB}"
-      USER: "${DBU}"
-      PASS: "${DBP}"
-# Command to fetch all dependencies of Drupal 9 install. Remove /var/www/html directory and link /opt/web to /var/var/www/. Run Drupal9 install with apache.
-    command: bash -c "composer update && rm /var/www/html && ln -s /opt/web /var/www/html && /usr/local/bin/apache2-foreground"
+      COMPOSER_MEMORY_LIMIT: "2G"
+      WEBROOT_SITE: ${WEBROOT_SITE}
+      DOMAIN: ${DOMAIN_NAME}
+      TRUSTED_HOST_PATTERNS: ${TRUSTED_HOST_PATTERNS}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: 3306
+      HASH_SALT: ${HASH_SALT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_PORT: 6379
+    # Command to fetch all dependencies of Drupal 9 install. 
+    # Remove /var/www/html directory and link /opt/web to /var/var/www/. 
+    # Run Drupal9 install with composer and start Apache.
+    command: bash -c "composer update && rm -rf /var/www/html && ln -s /opt/drupal/web /var/www/html && /usr/local/bin/apache2-foreground"
+    labels:
+      - "traefik.http.routers.madsnorgaard_drupal.rule=Host(`drupal.madsnorgaard.net`) || Host(`www.drupal.madsnorgaard.net`)"
+      - "traefik.http.routers.madsnorgaard_drupal.tls=true"
+      - "traefik.http.routers.madsnorgaard_drupal.tls.certresolver=lets-encrypt"
+      - "traefik.http.middlewares.madsnorgaard_drupal-www-https-redirect.redirectregex.permanent=true"
+      - "traefik.http.middlewares.madsnorgaard_drupal-secure-www-redirect.redirectregex.permanent=true"
+      - "traefik.http.middlewares.web-www-https-redirect.redirectregex.permanent=true"
+      - "traefik.http.routers.drupal.middlewares=web-www-https-redirect"
+    networks:
+      - internal
+      - web
+    depends_on:
+      - madsnorgaard_drupal_db
+      - madsnorgaard_redis
+
+  madsnorgaard_redis:
+    image: library/redis:latest
+    container_name: madsnorgaard_redis
+    volumes:
+      - ./data/redis:/data
+    command: [ "redis-server" ]
+    networks:
+      - internal
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 20s
+      retries: 10
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+
+  madsnorgaard_solr:
+    image: solr:8.11.2
+    container_name: madsnorgaard_solr
+    ports:
+     - "8983:8983"
+    volumes:
+      - ./data/solr:/var/solr
+      - ./solr/madsnorgaard:/opt/solr/server/solr/madsnorgaard
+    restart: unless-stopped
+    networks:
+      - internal
+

@@ -17,12 +17,17 @@
     "require": {
         "composer/installers": "^1.9",
         "drupal/admin_toolbar": "^3.0",
-        "drupal/core-composer-scaffold": "^9",
-        "drupal/core-project-message": "^9",
-        "drupal/core-recommended": "^9",
+        "drupal/core-composer-scaffold": "^10.1",
+        "drupal/core-project-message": "^10.1",
+        "drupal/core-recommended": "^10.1",
+        "drupal/gin": "^3.0@beta",
+        "drupal/gin_toolbar": "^1.0@beta",
+        "drupal/maestro": "^3.0@RC",
         "drupal/taxonomy_menu": "^3.4",
+        "drupal/webform": "^6.1",
         "drush/config-extra": "^1.0",
-        "drush/drush": "^10.4"
+        "drush/drush": "^11",
+        "php": ">=8.2.0"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -30,7 +35,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true
+        }
     },
     "extra": {
         "drupal-scaffold": {
@@ -38,6 +48,9 @@
                 "web-root": "web/"
             }
         },
+    	"allow-plugins": {
+            "composer/installers": true
+    	},
         "installer-paths": {
             "web/core": [
                 "type:drupal-core"
