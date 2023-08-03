@@ -2,7 +2,7 @@
 
 name: CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
@@ -19,6 +19,18 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
+    env:
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASS: ${{ secrets.DB_PASS }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      HASH_SALT: ${{ secrets.HASH_SALT }}
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+      DOMAIN_NAME: drupal.madsnorgaard.net
+      TRUSTED_HOST_PATTERNS: drupal.madsnorgaard.net
+      WEBROOT_SITE: web
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
