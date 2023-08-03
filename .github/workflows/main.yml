@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
 # Controls when the action will run.
@@ -62,3 +60,17 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull Docker images and start Docker containers
+        run: |
+          echo "Pulling Docker images and starting Docker containers..."
+          ssh -i <(echo "${{ secrets.SSH_PRIVATE_KEY }}") -p 22022 ${{ secrets.SSH_USERNAME }}@5.189.183.167 "cd /docker/drupal.madsnorgaard.net; docker-compose pull; docker-compose up -d"
+
+      - name: Drupal updates
+        run: |
+          echo "Updating Drupal database, importing configuration, and rebuilding cache..."
+          ssh -i <(echo "${{ secrets.SSH_PRIVATE_KEY }}") -p 22022 ${{ secrets.SSH_USERNAME }}@5.189.183.167 "cd /docker/drupal.madsnorgaard.net; docker-compose exec -it madsnorgaard_drupal bash -c 'drush updb -y; drush cim -y; drush cr;'"

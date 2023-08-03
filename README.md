@@ -81,3 +81,18 @@ Run Drush commands using - this command provides a full list of useful Drush com
    ```
 Full list of commands in [Drush 9](https://drushcommands.com/drush-9x/). A list such as this one is not available yet fir Drush 10 but should suffice.
 
+
+### Deployment using Github actions
+#### Requirements
+- Github account
+- Github repository
+- Github personal access token
+- SSH key pair
+- SSH public key added to Github repository
+- SSH private key added to Github secrets
+
+If you want to use SSH to deploy your Docker Compose Drupal setup to your server with IP whitelisting, you can add an SSH deploy step to your GitHub Actions workflow. Here's an example of how you can do it:
+
+    First, create an SSH key pair (public and private key) on your server (if you haven't already). Make sure to add the public key to the authorized_keys file on your server to allow GitHub to access it via SSH.
+
+    In the GitHub repository, go to "Settings" -> "Secrets" -> "New repository secret." Create two secrets: SSH_PRIVATE_KEY and SSH_USERNAME. The SSH_PRIVATE_KEY should contain the private key generated in step 1, and SSH_USERNAME should be the username you'll use for SSH access (e.g., root, ubuntu, etc.).
