@@ -49,6 +49,9 @@ jobs:
           echo DOMAIN_NAME=$DOMAIN_NAME >> .env
           echo TRUSTED_HOST_PATTERNS=$TRUSTED_HOST_PATTERNS >> .env
           echo WEBROOT_SITE=$WEBROOT_SITE >> .env
+      # Creates a Docker network called "web"
+      - name: Create Docker network
+        run: docker network create web
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
