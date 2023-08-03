@@ -11,6 +11,18 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASS: ${{ secrets.DB_PASS }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      HASH_SALT: ${{ secrets.HASH_SALT }}
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+      DOMAIN_NAME: drupal.madsnorgaard.net
+      TRUSTED_HOST_PATTERNS: drupal.madsnorgaard.net
+      WEBROOT_SITE: web
+
     steps:
     - uses: actions/checkout@v2
 
