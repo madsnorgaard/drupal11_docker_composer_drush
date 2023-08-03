@@ -37,6 +37,19 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Create .env file
+        run: |
+          echo DB_NAME=$DB_NAME >> .env
+          echo DB_USER=$DB_USER >> .env
+          echo DB_PASS=$DB_PASS >> .env
+          echo DB_HOST=$DB_HOST >> .env
+          echo HASH_SALT=$HASH_SALT >> .env
+          echo REDIS_HOST=$REDIS_HOST >> .env
+          echo REDIS_PASSWORD=$REDIS_PASSWORD >> .env
+          echo DOMAIN_NAME=$DOMAIN_NAME >> .env
+          echo TRUSTED_HOST_PATTERNS=$TRUSTED_HOST_PATTERNS >> .env
+          echo WEBROOT_SITE=$WEBROOT_SITE >> .env
+
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: docker-compose up -d
