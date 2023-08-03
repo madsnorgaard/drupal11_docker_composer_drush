@@ -33,6 +33,8 @@ services:
     ports:
       - 9999:80
     restart: always
+    volumes:
+    - ./docker/phpmyadmin/php.ini:/usr/local/etc/php/conf.d/php.ini
     environment:
       PMA_HOST: "${DB_HOST}"
       PMA_USER: "${DB_USER}"
@@ -82,9 +84,9 @@ services:
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       REDIS_PORT: 6379
-    # Command to fetch all dependencies of Drupal 9 install. 
-    # Remove /var/www/html directory and link /opt/web to /var/var/www/. 
-    # Run Drupal9 install with composer and start Apache.
+    # Command to fetch all dependencies of Drupal 10 install.
+    # Remove /var/www/html directory and link /opt/web to /var/var/www/.
+    # Run Drupal 10 install with composer and start Apache.
     command: bash -c "composer update && rm -rf /var/www/html && ln -s /opt/drupal/web /var/www/html && /usr/local/bin/apache2-foreground"
     labels:
       - "traefik.http.routers.madsnorgaard_drupal.rule=Host(`drupal.madsnorgaard.net`) || Host(`www.drupal.madsnorgaard.net`)"

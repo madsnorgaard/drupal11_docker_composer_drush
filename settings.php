@@ -36,7 +36,7 @@ if (extension_loaded('redis') && !empty(getenv('REDIS_HOST'))) {
     $settings['redis.connection']['host'] = getenv('REDIS_HOST');
     $settings['redis.connection']['port'] = '6379';
     $settings['cache']['default'] = 'cache.backend.redis';
-    $settings['cache_prefix'] = 'drupal9_redis_';
+    $settings['cache_prefix'] = 'drupal10_redis_';
 }
 
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {

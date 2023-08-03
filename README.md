@@ -1,5 +1,5 @@
 # Project description
-This project includes Drupal 9, Drush 10, Composer install of Drupal Recommended Project and can be used to develop, stage or put into production any Drupal 9 project.
+This project includes Drupal 10, Drush 10, Composer install of Drupal Recommended Project and can be used to develop, stage or put into production any Drupal 10 project.
 
 Also included are drush/config-extra and other utilities for CI/CD in terms of a Drupal project - site updates, database schema updates, database backups, push of databases via git, backup of files, replication of production environments and much more.
 
@@ -18,7 +18,7 @@ For development purposes this project can be started with:
    $ docker-compose up -d
    ```
 
-Drupal 9 will be available via [localhost:9998](http://localhost:9998/)
+Drupal 10 will be available via [localhost:9998](http://localhost:9998/)
 
 phpMyAdmin will for development purposes be available via [localhost:9999](http://localhost:9999/)
 
@@ -45,23 +45,29 @@ To install modules or other dependencies strictly use Composer. Installed depend
 #### Adding dependencies
 
 Use `composer require` to add and install new packages. Alternatively add the requirement to `composer.json` and run `composer install`.
-   
+
    ```sh
     $ docker-compose exec -T drupal composer require "vendor/package:2.*"
    ```
 
 #### Updating dependencies
 
-When a version update is needed, use `composer update vendor/package`. 
-    
+When a version update is needed, use `composer update vendor/package`.
+
    ```sh
    $ docker-compose exec -T drupal composer update vendor/package
+   ```
+#### Rebuilding images and restarting containers
+How to rebuild and restart containers after changes to the Dockerfile:
+
+   ```sh
+   $ docker-compose up -d --build
    ```
 
 On first run, the `composer.lock` file was generated using `composer update` without further parameters.
 
 #### Running tests (coming soon)
-   
+
    ```sh
 
    ```
@@ -74,3 +80,4 @@ Run Drush commands using - this command provides a full list of useful Drush com
    $ docker-compose exec -T drupal ./drush
    ```
 Full list of commands in [Drush 9](https://drushcommands.com/drush-9x/). A list such as this one is not available yet fir Drush 10 but should suffice.
+
