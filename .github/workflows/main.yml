@@ -16,8 +16,7 @@ jobs:
   # This workflow contains a job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
+    runs-on: self-hosted
     env:
       DB_NAME: ${{ secrets.DB_NAME }}
       DB_USER: ${{ secrets.DB_USER }}
@@ -29,7 +28,6 @@ jobs:
       DOMAIN_NAME: drupal.madsnorgaard.net
       TRUSTED_HOST_PATTERNS: drupal.madsnorgaard.net
       WEBROOT_SITE: web
-
     steps:
       # Checks-out your repository so your job can access it
       - uses: actions/checkout@v2
