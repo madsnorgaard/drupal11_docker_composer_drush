@@ -13,7 +13,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  # This workflow contains a job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -30,9 +30,8 @@ jobs:
       TRUSTED_HOST_PATTERNS: drupal.madsnorgaard.net
       WEBROOT_SITE: web
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # Checks-out your repository so your job can access it
       - uses: actions/checkout@v2
 
       - name: Create .env file
@@ -47,31 +46,34 @@ jobs:
           echo DOMAIN_NAME=$DOMAIN_NAME >> .env
           echo TRUSTED_HOST_PATTERNS=$TRUSTED_HOST_PATTERNS >> .env
           echo WEBROOT_SITE=$WEBROOT_SITE >> .env
-      # Creates a Docker network called "web"
+
       - name: Create Docker network
         run: docker network create web
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
+      - name: Start Docker containers
         run: docker-compose up -d
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Run additional commands
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo "Add other actions to build,"
+          echo "test, and deploy your project."
 
   deploy:
     name: Deploy
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
+    env:
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+      SERVER_IP: ${{ secrets.SERVER_IP }}
+
     steps:
       - name: Pull Docker images and start Docker containers
         run: |
           echo "Pulling Docker images and starting Docker containers..."
-          ssh -i <(echo "${{ secrets.SSH_PRIVATE_KEY }}") -p 22022 ${{ secrets.SSH_USERNAME }}@5.189.183.167 "cd /docker/drupal.madsnorgaard.net; docker-compose pull; docker-compose up -d"
+          ssh -i <(echo "${{ secrets.SSH_PRIVATE_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net; docker-compose pull; docker-compose up -d"
 
       - name: Drupal updates
         run: |
           echo "Updating Drupal database, importing configuration, and rebuilding cache..."
-          ssh -i <(echo "${{ secrets.SSH_PRIVATE_KEY }}") -p 22022 ${{ secrets.SSH_USERNAME }}@5.189.183.167 "cd /docker/drupal.madsnorgaard.net; docker-compose exec -it madsnorgaard_drupal bash -c 'drush updb -y; drush cim -y; drush cr;'"
+          ssh -i <(echo "${{ secrets.SSH_PRIVATE_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net; docker-compose exec -T madsnorgaard_drupal bash -c 'drush updb -y; drush cim -y; drush cr;'"
