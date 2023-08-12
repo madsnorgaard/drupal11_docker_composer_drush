@@ -24,6 +24,10 @@ jobs:
       WEBROOT_SITE: web
 
     steps:
+
+    - name: Clean up temporary files
+      run: rm -rf /tmp/*
+
     - uses: actions/checkout@v2
 
     - name: Validate composer.json and composer.lock
