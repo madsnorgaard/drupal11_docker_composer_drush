@@ -83,7 +83,7 @@ jobs:
 
   deploy:
     needs: docker-setup
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     env:
       DB_NAME: ${{ secrets.DB_NAME }}
       DB_USER: ${{ secrets.DB_USER }}
