@@ -10,9 +10,11 @@ on:
 jobs:
   composer-setup:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    - uses: actions/checkout@v3
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -46,7 +48,6 @@ jobs:
       HASH_SALT: ${{ secrets.HASH_SALT }}
       REDIS_HOST: ${{ secrets.REDIS_HOST }}
       REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
       DOMAIN_NAME: drupal.madsnorgaard.net
       TRUSTED_HOST_PATTERNS: drupal.madsnorgaard.net
       WEBROOT_SITE: web
@@ -56,7 +57,7 @@ jobs:
         run: |
           rm -rf ./* ./.??*
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
 
@@ -82,14 +83,39 @@ jobs:
 
   deploy:
     needs: docker-setup
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     env:
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASS: ${{ secrets.DB_PASS }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      HASH_SALT: ${{ secrets.HASH_SALT }}
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+      DOMAIN_NAME: drupal.madsnorgaard.net
+      TRUSTED_HOST_PATTERNS: drupal.madsnorgaard.net
+      WEBROOT_SITE: web
       SSH_PORT: ${{ secrets.SSH_PORT }}
       SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
       SERVER_IP: ${{ secrets.SERVER_IP }}
       DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-
     steps:
+      - name: Setup .env file
+        run: |
+          echo "DB_NAME=$DB_NAME" >> .env
+          echo "DB_USER=$DB_USER" >> .env
+          echo "DB_PASS=$DB_PASS" >> .env
+          echo "DB_HOST=$DB_HOST" >> .env
+          echo "HASH_SALT=$HASH_SALT" >> .env
+          echo "REDIS_HOST=$REDIS_HOST" >> .env
+          echo "REDIS_PASSWORD=$REDIS_PASSWORD" >> .env
+          echo "DOMAIN_NAME=$DOMAIN_NAME" >> .env
+          echo "TRUSTED_HOST_PATTERNS=$TRUSTED_HOST_PATTERNS" >> .env
+          echo "WEBROOT_SITE=$WEBROOT_SITE" >> .env
+          echo "SSH_PORT=$SSH_PORT" >> .env
+          echo "SSH_USERNAME=$SSH_USERNAME" >> .env
+          echo "SERVER_IP=$SERVER_IP" >> .env
+
       - name: Deploy Docker setup
         run: |
           ssh -o StrictHostKeyChecking=no -i <(echo "${DEPLOY_KEY}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
