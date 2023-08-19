@@ -42,9 +42,6 @@
             "drupal/core-project-message": true
         }
     },
-    "scripts": {
-        "test": "phpunit"
-    },
     "extra": {
         "drupal-scaffold": {
             "locations": {
