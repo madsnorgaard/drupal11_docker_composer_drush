@@ -118,8 +118,7 @@ jobs:
 
       - name: Backup Drupal DB
         run: |
-          ssh -o StrictHostKeyChecking=no -i <(echo "${DEPLOY_KEY}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose exec -T madsnorgaard_drupal bash -c 'drush sql-dump > backup_$(date +'%Y%m%d%H%M%S').sql'"
-
+          ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key -p 22022 $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
       - name: Deploy Docker setup
         run: |
           ssh -o StrictHostKeyChecking=no -i <(echo "${DEPLOY_KEY}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
