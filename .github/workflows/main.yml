@@ -1,36 +1,81 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    runs-on: self-hosted
+    env:
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASS: ${{ secrets.DB_PASS }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      HASH_SALT: ${{ secrets.HASH_SALT }}
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+      DOMAIN_NAME: drupal.madsnorgaard.net
+      TRUSTED_HOST_PATTERNS: drupal.madsnorgaard.net
+      WEBROOT_SITE: web
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: 'Cleanup build folder'
+        run: |
+          ls -la ./
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+          ls -la ./
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
+      - name: Create .env file
+        run: |
+          echo "DB_NAME=$DB_NAME" >> .env
+          echo "DB_USER=$DB_USER" >> .env
+          echo "DB_PASS=$DB_PASS" >> .env
+          echo "DB_HOST=$DB_HOST" >> .env
+          echo "HASH_SALT=$HASH_SALT" >> .env
+          echo "REDIS_HOST=$REDIS_HOST" >> .env
+          echo "REDIS_PASSWORD=$REDIS_PASSWORD" >> .env
+          echo "DOMAIN_NAME=$DOMAIN_NAME" >> .env
+          echo "TRUSTED_HOST_PATTERNS=$TRUSTED_HOST_PATTERNS" >> .env
+          echo "WEBROOT_SITE=$WEBROOT_SITE" >> .env
+
+      - name: Create Docker network if not exists
+        run: |
+          docker network ls | grep -wq web || docker network create web
+
+      - name: Start Docker containers
         run: docker-compose up -d
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Run additional commands
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo "Add other actions to build, test, and deploy your project."
+
+  deploy:
+    name: Deploy
+    runs-on: self-hosted
+    needs: build
+    env:
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+      SERVER_IP: ${{ secrets.SERVER_IP }}
+      DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+
+    steps:
+      - name: Pull Docker images and start Docker containers
+        run: |
+          echo "Pulling Docker images and starting Docker containers..."
+          ssh -i <(echo "${{ secrets.DEPLOY_SSH_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
+
+      - name: Drupal updates
+        run: |
+          echo "Updating Drupal database, importing configuration, and rebuilding cache..."
+          ssh -i <(echo "${{ secrets.DEPLOY_SSH_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose exec -T madsnorgaard_drupal bash -c 'drush updb -y; drush cim -y; drush cr;'"
+
