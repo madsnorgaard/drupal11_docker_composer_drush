@@ -1,5 +1,14 @@
-config/         .editorconfig   logs/           redis/          vendor/
-composer.lock   drupal/         .gitattributes  private/        solr/           web/
+config/
+.editorconfig
+logs/
+redis/
+vendor/
+composer.lock
+drupal/
+.gitattributes
+private/
+solr/
+web/
 
 
 
