@@ -91,26 +91,3 @@ jobs:
         clean: false
 
     - name: Deploy to VPS
-      run: |
-        # Install SSH client
-        sudo apt-get install -y openssh-client
-
-        # Write the SSH private key from secrets to a file
-        echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key
-        chmod 600 deploy_key
-        ssh -v -o StrictHostKeyChecking=no -i deploy_key -p 22022 $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
-      env:
-        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-        SERVER_IP: ${{ secrets.SERVER_IP }}
-
-    - name: Check Docker logs
-      run: |
-        echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key
-        chmod 600 deploy_key
-        ssh -o StrictHostKeyChecking=no -i deploy_key -p 22022 ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "cd /docker/drupal.madsnorgaard.net && docker-compose logs --tail=50"
-
-    - name: Update Drupal
-      run: |
-        echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key
-        chmod 600 deploy_key
-        ssh -o StrictHostKeyChecking=no -i deploy_key -p 22022 ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "cd /docker/drupal.madsnorgaard.net && docker-compose exec -T madsnorgaard_drupal bash -c 'drush updb -y; drush cim -y; drush cr;'"
