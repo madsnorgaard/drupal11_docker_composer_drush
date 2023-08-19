@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD Workflow
 
 on:
   push:
@@ -8,7 +8,32 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  composer-setup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run test suite
+      run: composer run-script test
+
+  docker-setup:
+    needs: composer-setup
     runs-on: ubuntu-latest
     env:
       DB_NAME: ${{ secrets.DB_NAME }}
@@ -22,19 +47,17 @@ jobs:
       DOMAIN_NAME: drupal.madsnorgaard.net
       TRUSTED_HOST_PATTERNS: drupal.madsnorgaard.net
       WEBROOT_SITE: web
+
     steps:
-      - name: 'Cleanup build folder'
+      - name: Cleanup build folder
         run: |
-          ls -la ./
-          rm -rf ./* || true
-          rm -rf ./.??* || true
-          ls -la ./
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+          rm -rf ./* ./.??*
+
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 1
 
-      - name: Create .env file
+      - name: Setup .env file
         run: |
           echo "DB_NAME=$DB_NAME" >> .env
           echo "DB_USER=$DB_USER" >> .env
@@ -47,21 +70,16 @@ jobs:
           echo "TRUSTED_HOST_PATTERNS=$TRUSTED_HOST_PATTERNS" >> .env
           echo "WEBROOT_SITE=$WEBROOT_SITE" >> .env
 
-      - name: Create Docker network if not exists
+      - name: Setup Docker network
         run: |
           docker network ls | grep -wq web || docker network create web
 
       - name: Start Docker containers
         run: docker-compose up -d
 
-      - name: Run additional commands
-        run: |
-          echo "Add other actions to build, test, and deploy your project."
-
   deploy:
-    name: Deploy
+    needs: docker-setup
     runs-on: self-hosted
-    needs: build
     env:
       SSH_PORT: ${{ secrets.SSH_PORT }}
       SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
@@ -69,22 +87,18 @@ jobs:
       DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
 
     steps:
-      - name: Pull Docker images and start Docker containers
+      - name: Deploy Docker setup
         run: |
-          echo "Pulling Docker images and starting Docker containers..."
-          ssh -o StrictHostKeyChecking=no -i <(echo "${{ secrets.DEPLOY_SSH_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d" || echo "Failed to pull and start Docker containers."
+          ssh -o StrictHostKeyChecking=no -i <(echo "${DEPLOY_KEY}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
 
       - name: Check Docker logs
         run: |
-          echo "Checking Docker logs for critical issues..."
-          ssh -o StrictHostKeyChecking=no -i <(echo "${{ secrets.DEPLOY_SSH_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose logs --tail=50" || echo "Failed to fetch Docker logs."
+          ssh -o StrictHostKeyChecking=no -i <(echo "${DEPLOY_KEY}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose logs --tail=50"
 
-      - name: Drupal updates
+      - name: Update Drupal
         run: |
-          echo "Updating Drupal database, importing configuration, and rebuilding cache..."
-          ssh -o StrictHostKeyChecking=no -i <(echo "${{ secrets.DEPLOY_SSH_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose exec -T madsnorgaard_drupal bash -c 'drush updb -y; drush cim -y; drush cr;'" || echo "Failed to run Drupal updates."
+          ssh -o StrictHostKeyChecking=no -i <(echo "${DEPLOY_KEY}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose exec -T madsnorgaard_drupal bash -c 'drush updb -y; drush cim -y; drush cr;'"
 
-      - name: Backup Drupal database
+      - name: Backup Drupal DB
         run: |
-          echo "Backing up the Drupal database..."
-          ssh -o StrictHostKeyChecking=no -i <(echo "${{ secrets.DEPLOY_SSH_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose exec -T madsnorgaard_drupal bash -c 'drush sql-dump > backup_$(date +"%Y%m%d%H%M%S").sql'" || echo "Failed to backup the Drupal database."
+          ssh -o StrictHostKeyChecking=no -i <(echo "${DEPLOY_KEY}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose exec -T madsnorgaard_drupal bash -c 'drush sql-dump > backup_$(date +'%Y%m%d%H%M%S').sql'"
