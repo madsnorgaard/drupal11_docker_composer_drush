@@ -84,61 +84,21 @@ jobs:
   deploy:
     needs: docker-setup
     runs-on: self-hosted
-    env:
-      DB_NAME: ${{ secrets.DB_NAME }}
-      DB_USER: ${{ secrets.DB_USER }}
-      DB_PASS: ${{ secrets.DB_PASS }}
-      DB_HOST: ${{ secrets.DB_HOST }}
-      HASH_SALT: ${{ secrets.HASH_SALT }}
-      REDIS_HOST: ${{ secrets.REDIS_HOST }}
-      REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-      DOMAIN_NAME: drupal.madsnorgaard.net
-      TRUSTED_HOST_PATTERNS: drupal.madsnorgaard.net
-      WEBROOT_SITE: web
-      SSH_PORT: ${{ secrets.SSH_PORT }}
-      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-      SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-      SERVER_IP: ${{ secrets.SERVER_IP }}
-      DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
     steps:
-      - name: Setup .env file
+      - name: Deploy Docker setup with SSH key
         run: |
-          echo "DB_NAME=$DB_NAME" >> .env
-          echo "DB_USER=$DB_USER" >> .env
-          echo "DB_PASS=$DB_PASS" >> .env
-          echo "DB_HOST=$DB_HOST" >> .env
-          echo "HASH_SALT=$HASH_SALT" >> .env
-          echo "REDIS_HOST=$REDIS_HOST" >> .env
-          echo "REDIS_PASSWORD=$REDIS_PASSWORD" >> .env
-          echo "DOMAIN_NAME=$DOMAIN_NAME" >> .env
-          echo "TRUSTED_HOST_PATTERNS=$TRUSTED_HOST_PATTERNS" >> .env
-          echo "WEBROOT_SITE=$WEBROOT_SITE" >> .env
-          echo "SSH_PORT=$SSH_PORT" >> .env
-          echo "SSH_USERNAME=$SSH_USERNAME" >> .env
-          echo "SSH_PASSWORD=$SSH_PASSWORD" >> .env
-          echo "SERVER_IP=$SERVER_IP" >> .env
-
-      - name: SSH using password
-        run: |
-          sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no -p 22022 $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
-        env:
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-          SERVER_IP: ${{ secrets.SERVER_IP }}
-
-      - name: Deploy Docker setup
-        run: |
-          ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key -p 22022 $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
-        env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-          SERVER_IP: ${{ secrets.SERVER_IP }}
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key
+          chmod 600 deploy_key
+          ssh -o StrictHostKeyChecking=no -i deploy_key -p 22022 ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
 
       - name: Check Docker logs
         run: |
-          ssh -o StrictHostKeyChecking=no -i <(echo "${DEPLOY_KEY}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose logs --tail=50"
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key
+          chmod 600 deploy_key
+          ssh -o StrictHostKeyChecking=no -i deploy_key -p 22022 ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "cd /docker/drupal.madsnorgaard.net && docker-compose logs --tail=50"
 
       - name: Update Drupal
         run: |
-          ssh -o StrictHostKeyChecking=no -i <(echo "${DEPLOY_KEY}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose exec -T madsnorgaard_drupal bash -c 'drush updb -y; drush cim -y; drush cr;'"
-
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key
+          chmod 600 deploy_key
+          ssh -o StrictHostKeyChecking=no -i deploy_key -p 22022 ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "cd /docker/drupal.madsnorgaard.net && docker-compose exec -T madsnorgaard_drupal bash -c 'drush updb -y; drush cim -y; drush cr;'"
