@@ -98,7 +98,7 @@ jobs:
         # Write the SSH private key from secrets to a file
         echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key
         chmod 600 deploy_key
-        ssh -v -o StrictHostKeyChecking=no -i deploy_key -p 22022 ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
+        ssh -v -o StrictHostKeyChecking=no -i deploy_key -p 22022 $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
       env:
         SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
         SERVER_IP: ${{ secrets.SERVER_IP }}
