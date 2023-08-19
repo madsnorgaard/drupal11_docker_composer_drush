@@ -118,9 +118,6 @@ jobs:
           echo "SSH_PASSWORD=$SSH_PASSWORD" >> .env
           echo "SERVER_IP=$SERVER_IP" >> .env
 
-      - name: Install sshpass
-        run: apt-get install -y sshpass
-
       - name: SSH using password
         run: |
           sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no -p 22022 $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
