@@ -91,3 +91,13 @@ jobs:
         clean: false
 
     - name: Deploy to VPS
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd /var/www/drupal.madsnorgaard.net
+          git pull
+          docker-compose up -d --build
