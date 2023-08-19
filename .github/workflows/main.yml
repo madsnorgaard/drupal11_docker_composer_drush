@@ -85,19 +85,19 @@ jobs:
     needs: docker-setup
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        clean: false
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          clean: false
 
-    - name: Deploy to VPS
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.KEY }}
-        port: ${{ secrets.PORT }}
-        script: |
-          cd /var/www/drupal.madsnorgaard.net
-          git pull
-          docker-compose up -d --build
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@main
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /var/www/drupal.madsnorgaard.net
+            git pull
+            docker-compose up -d --build
