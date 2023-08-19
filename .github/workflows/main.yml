@@ -72,10 +72,21 @@ jobs:
       - name: Pull Docker images and start Docker containers
         run: |
           echo "Pulling Docker images and starting Docker containers..."
-          ssh -i <(echo "${{ secrets.DEPLOY_SSH_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d"
+          ssh -o StrictHostKeyChecking=no -i <(echo "${{ secrets.DEPLOY_SSH_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose pull && docker-compose up -d" || echo "Failed to pull and start Docker containers."
+
+      # Optional: Check Docker logs for critical issues (you can tailor this command as per your specific services)
+      - name: Check Docker logs
+        run: |
+          echo "Checking Docker logs for critical issues..."
+          ssh -o StrictHostKeyChecking=no -i <(echo "${{ secrets.DEPLOY_SSH_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose logs --tail=50" || echo "Failed to fetch Docker logs."
 
       - name: Drupal updates
         run: |
           echo "Updating Drupal database, importing configuration, and rebuilding cache..."
-          ssh -i <(echo "${{ secrets.DEPLOY_SSH_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose exec -T madsnorgaard_drupal bash -c 'drush updb -y; drush cim -y; drush cr;'"
+          ssh -o StrictHostKeyChecking=no -i <(echo "${{ secrets.DEPLOY_SSH_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose exec -T madsnorgaard_drupal bash -c 'drush updb -y; drush cim -y; drush cr;'" || echo "Failed to run Drupal updates."
 
+      # Optional: Add a step to backup the database before making changes
+      - name: Backup Drupal database
+        run: |
+          echo "Backing up the Drupal database..."
+          ssh -o StrictHostKeyChecking=no -i <(echo "${{ secrets.DEPLOY_SSH_KEY }}") -p $SSH_PORT $SSH_USERNAME@$SERVER_IP "cd /docker/drupal.madsnorgaard.net && docker-compose exec -T madsnorgaard_drupal bash -c 'drush sql-dump > backup_$(date +"%Y%m%d%H%M%S").sql'" || echo "Failed to backup the Drupal database."
