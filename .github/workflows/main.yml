@@ -83,7 +83,7 @@ jobs:
 
   deploy:
     needs: docker-setup
-    runs-on: ubuntu-latest
+    runs-on: self-hosted # we need to use self-hosted runner to access the VPS due to ip restrictions
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
