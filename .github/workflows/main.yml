@@ -97,20 +97,11 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-      - name: Add server to known_hosts
+      - name: Add SSH key to known hosts
         run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-
-          - name: Pull latest changes
-          uses: appleboy/ssh-action@v0.1.2
-          with:
-            host: ${{ secrets.SERVER_IP }}
-            username: ${{ secrets.SSH_USERNAME }}
-            key: ${{ secrets.DEPLOY_KEY }}
-            port: ${{ secrets.SSH_PORT }}
-            script: |
-              cd /home/webadmin/docker/drupal.madsnorgaard.net
-              git pull origin main
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.2
