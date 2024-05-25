@@ -131,4 +131,9 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            docker ps
+            if [ $(docker ps -f name=drupalmadsnorgaardnet --format "{{.Names}}" | wc -l) -eq 3 ]; then
+              echo "All 3 containers are running."
+            else
+              echo "Error: Not all containers are running."
+              exit 1
+            fi
