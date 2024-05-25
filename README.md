@@ -1,3 +1,5 @@
+[![CI/CD Workflow](https://github.com/madsnorgaard/drupal10_docker_composer_drush/actions/workflows/main.yml/badge.svg)](https://github.com/madsnorgaard/drupal10_docker_composer_drush/actions/workflows/main.yml)
+
 # Project description
 This project includes Drupal 10, Drush 10, Composer install of Drupal Recommended Project and can be used to develop, stage or put into production any Drupal 10 project.
 
