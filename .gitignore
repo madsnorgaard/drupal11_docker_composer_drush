@@ -74,3 +74,4 @@ data/drupal/web/sites/*/private
 # Database data and dumps
 *.sql
 /sql
+*.sql.gz
