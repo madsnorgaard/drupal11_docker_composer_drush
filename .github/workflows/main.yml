@@ -99,9 +99,7 @@ jobs:
 
       - name: Add server to known_hosts
         run: |
-          echo "${{ secrets.SERVER_IP }}" | xargs -I {} ssh-keyscan -p ${{ secrets.SSH_PORT }} {} >> ~/.ssh/known_hosts
-          echo "::add-mask::${{ secrets.SERVER_IP }}"
-          echo "::add-mask::${{ secrets.SSH_PORT }}"
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Create SSH config
         run: |
@@ -111,9 +109,9 @@ jobs:
           Port ${{ secrets.SSH_PORT }}\n\
           IdentityFile ~/.ssh/id_rsa\n\
           StrictHostKeyChecking no\n\
-          LogLevel ERROR" > ~/.ssh/config
-          echo "::add-mask::${{ secrets.SERVER_IP }}"
-          echo "::add-mask::${{ secrets.SSH_PORT }}"
+          LogLevel ERROR\n\
+          NumberOfPasswordPrompts 0\n\
+          IdentitiesOnly yes" > ~/.ssh/config
 
       - name: Pull latest changes
         run: |
@@ -127,13 +125,9 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            echo "::add-mask::${{ secrets.SERVER_IP }}"
-            echo "::add-mask::${{ secrets.SSH_USERNAME }}"
-            echo "::add-mask::${{ secrets.DEPLOY_KEY }}"
-            echo "::add-mask::${{ secrets.SSH_PORT }}"
             cd /home/webadmin/docker/drupal.madsnorgaard.net
             docker-compose down
-              docker-compose up -d --build
+            docker-compose up -d --build
 
       - name: Check services
         uses: appleboy/ssh-action@v0.1.2
