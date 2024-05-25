@@ -131,7 +131,7 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            if [ $(docker ps -f name=madsnorgaard --format "{{.Names}}" | wc -l) -eq 5 ]; then
+            if [ $(docker ps -f name=madsnorgaard_drupal --format "{{.Names}}" | wc -l) -eq 5 ]; then
               echo "All 5 containers are running."
             else
               echo "Error: Not all containers are running."
