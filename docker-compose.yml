@@ -19,7 +19,7 @@ services:
       MYSQL_PASSWORD: "${DB_PASS}"
       MYSQL_ROOT_PASSWORD: "${DB_PASS}"
     volumes:
-      - ./sql:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql
     labels:
       - "traefik.enable=false"
     networks:
