@@ -2,7 +2,7 @@ FROM drupal:10-php8.2-apache
 
 RUN set -eux; \
     apt-get update; \
-    apt-get install -y --no-install-recommends git nano mysql-client default-mysql-client
+    apt-get install -y --no-install-recommends git nano default-mysql-client
 
 # Copy the necessary files into the container
 COPY composer.json /opt/drupal/
