@@ -17,16 +17,16 @@
     "require": {
         "composer/installers": "^1.9",
         "drupal/admin_toolbar": "^3.0",
-        "drupal/core-composer-scaffold": "^10.1",
-        "drupal/core-project-message": "^10.1",
-        "drupal/core-recommended": "^10.1",
+        "drupal/core-composer-scaffold": "^10.2",
+        "drupal/core-project-message": "^10.2",
+        "drupal/core-recommended": "^10.2",
         "drupal/gin": "^3.0@beta",
         "drupal/gin_toolbar": "^1.0@beta",
         "drupal/maestro": "^3.0@RC",
         "drupal/taxonomy_menu": "^3.4",
         "drupal/webform": "^6.1",
         "drush/config-extra": "^1.0",
-        "drush/drush": "^11",
+        "drush/drush": "^12",
         "php": ">=8.2.0"
     },
     "conflict": {
