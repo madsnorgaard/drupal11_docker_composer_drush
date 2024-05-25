@@ -124,16 +124,16 @@ jobs:
             docker-compose up -d > /dev/null 2>&1
 
       - name: Check services
-      uses: appleboy/ssh-action@v0.1.2
-      with:
-        host: ${{ secrets.SERVER_IP }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.DEPLOY_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          if [ $(docker ps -f name=madsnorgaard --format "{{.Names}}" | wc -l) -eq 5 ]; then
-            echo "All 5 containers are running."
-          else
-            echo "Error: Not all containers are running."
-            exit 1
-          fi
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            if [ $(docker ps -f name=madsnorgaard --format "{{.Names}}" | wc -l) -eq 5 ]; then
+              echo "All 5 containers are running."
+            else
+              echo "Error: Not all containers are running."
+              exit 1
+            fi
