@@ -115,7 +115,7 @@ jobs:
             docker-compose up -d > /dev/null 2>&1
 
       - name: Install dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
+        run: docker exec -T drupal composer install --no-progress --prefer-dist --optimize-autoloader
 
       - name: Run Drush deploy hooks
         uses: appleboy/ssh-action@v0.1.2
