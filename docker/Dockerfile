@@ -9,10 +9,15 @@ COPY composer.json /opt/drupal/
 COPY composer.lock /opt/drupal/
 COPY settings.php /opt/drupal/web/sites/default/settings.php
 
-# Create the translations directory with correct permissions
-RUN mkdir -p /opt/drupal/web/sites/default/files/translations && \
-    chown -R www-data:www-data /opt/drupal/web/sites/default/files/translations && \
-    chmod -R 755 /opt/drupal/web/sites/default/files/translations
+# Ensure permissions for settings.php and other directories
+RUN mkdir -p /opt/drupal/web/sites/default/files/assets/js && \
+    mkdir -p /opt/drupal/web/sites/default/files/translations && \
+    chown -R www-data:www-data /opt/drupal/web/sites/default/files && \
+    chmod -R 755 /opt/drupal/web/sites/default/files && \
+    chown -R www-data:www-data /opt/drupal && \
+    chmod -R 755 /opt/drupal
 
 # Change working directory to /opt
 WORKDIR /opt/drupal
+
+CMD ["apache2-foreground"]

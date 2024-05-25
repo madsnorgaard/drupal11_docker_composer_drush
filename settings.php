@@ -62,3 +62,6 @@ $config['search_api.server.solr']['backend_config']['connector_config']['core'] 
 
 # Private file path
 # $settings['file_private_path'] = '/opt/drupal/private';
+
+# Config sync directory
+$settings['config_sync_directory'] = '../config/sync';
