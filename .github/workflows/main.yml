@@ -102,24 +102,34 @@ jobs:
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Pull latest changes
-        uses: gollumapp/ssh-action@v1
+        uses: appleboy/ssh-action@v0.1.2
         with:
-          command: ssh -p ${{ secrets.SSH_PORT }} webadmin@${{ secrets.SERVER_IP }} 'cd /home/webadmin/docker/drupal.madsnorgaard.net && git pull origin main'
-          args: "-i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /home/webadmin/docker/drupal.madsnorgaard.net
+            git pull origin main
 
       - name: Deploy to VPS
-        uses: gollumapp/ssh-action@v1
+        uses: appleboy/ssh-action@v0.1.2
         with:
-          command: |
-            ssh -p ${{ secrets.SSH_PORT }} webadmin@${{ secrets.SERVER_IP }} << 'EOF'
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
             cd /home/webadmin/docker/drupal.madsnorgaard.net
             docker-compose down
             docker-compose up -d --build
-            EOF
-          args: "-i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
 
       - name: Check services
-        uses: gollumapp/ssh-action@v1
+        uses: appleboy/ssh-action@v0.1.2
         with:
-          command: ssh -p ${{ secrets.SSH_PORT }} webadmin@${{ secrets.SERVER_IP }} 'docker ps'
-          args: "-i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            docker ps
