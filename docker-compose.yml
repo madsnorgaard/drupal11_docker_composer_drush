@@ -59,7 +59,6 @@ services:
     ports:
       - 9998:80
     working_dir: /opt/drupal
-    user: www-data # Ensure the container runs as www-data user
     volumes:
       - ./data:/opt/drupal
       - ./composer.json:/opt/drupal/composer.json
