@@ -87,7 +87,7 @@ services:
     # Run Drupal9 install with composer and start Apache.
     command: bash -c "composer update && rm -rf /var/www/html && ln -s /opt/drupal/web /var/www/html && /usr/local/bin/apache2-foreground"
     labels:
-      - "traefik.http.routers.madsnorgaard_drupal.rule=Host(`drupal.madsnorgaard.net`) || Host(`www.drupal.madsnorgaard.net`)"
+      - "traefik.http.routers.madsnorgaard_drupal.rule=Host(`drupal.madsnorgaard.net`)"
       - "traefik.http.routers.madsnorgaard_drupal.tls=true"
       - "traefik.http.routers.madsnorgaard_drupal.tls.certresolver=lets-encrypt"
       - "traefik.http.middlewares.madsnorgaard_drupal-www-https-redirect.redirectregex.permanent=true"
