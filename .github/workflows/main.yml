@@ -97,6 +97,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -p 22022 ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
       - name: Copy files to server
         run: |
           rsync -avz -e "ssh -p 22022" --exclude '.github' --exclude 'node_modules' --exclude '.git' ./ webadmin@${{ secrets.SERVER_IP }}:/home/webadmin/docker/drupal.madsnorgaard.net
