@@ -61,4 +61,4 @@ $config['search_api.server.solr']['backend_config']['connector_config']['port'] 
 $config['search_api.server.solr']['backend_config']['connector_config']['core'] = getenv('SOLR_CORE') ?: 'dev';
 
 # Private file path
-$settings['file_private_path'] = '/opt/drupal/private';
+# $settings['file_private_path'] = '/opt/drupal/private';
