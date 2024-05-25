@@ -103,7 +103,7 @@ jobs:
           chmod 700 ~/.ssh
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Deploy to VPS
+      - name: Deploy to VPS and Install dependencies
         uses: appleboy/ssh-action@v0.1.2
         with:
           host: ${{ secrets.SERVER_IP }}
@@ -113,9 +113,7 @@ jobs:
           script: |
             cd /home/webadmin/docker/drupal.madsnorgaard.net
             docker-compose up -d > /dev/null 2>&1
-
-      - name: Install dependencies
-        run: docker exec -w /home/webadmin/docker/drupal.madsnorgaard.net -it madsnorgaard_drupal composer install --no-progress --prefer-dist --optimize-autoloader
+            docker exec -it madsnorgaard_drupal drush deploy
 
       - name: Run Drush deploy hooks
         uses: appleboy/ssh-action@v0.1.2
