@@ -8,8 +8,6 @@ RUN set -eux; \
 COPY composer.json /opt/drupal/
 COPY composer.lock /opt/drupal/
 COPY settings.php /opt/drupal/web/sites/default/settings.php
-COPY entrypoint.sh /entrypoint.sh
-COPY .htaccess /opt/drupal/web/sites/default/files/.htaccess
 
 # Ensure permissions for settings.php and other directories
 RUN mkdir -p /opt/drupal/web/sites/default/files/assets/js && \
