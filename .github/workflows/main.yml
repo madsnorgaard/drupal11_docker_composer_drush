@@ -97,9 +97,13 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
       - name: Pull latest changes
         run: |
-          ssh -p 22022 webadmin@${{ secrets.SERVER_IP }} 'cd /home/webadmin/docker/drupal.madsnorgaard.net && git pull origin main'
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} webadmin@${{ secrets.SERVER_IP }} 'cd /home/webadmin/docker/drupal.madsnorgaard.net && git pull origin main'
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.2
