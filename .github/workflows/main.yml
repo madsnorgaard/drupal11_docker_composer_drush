@@ -101,16 +101,16 @@ jobs:
         run: |
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Pull latest changes
-        uses: appleboy/ssh-action@v0.1.2
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.DEPLOY_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            cd /home/webadmin/docker/drupal.madsnorgaard.net
-            git pull origin main
+          - name: Pull latest changes
+          uses: appleboy/ssh-action@v0.1.2
+          with:
+            host: ${{ secrets.SERVER_IP }}
+            username: ${{ secrets.SSH_USERNAME }}
+            key: ${{ secrets.DEPLOY_KEY }}
+            port: ${{ secrets.SSH_PORT }}
+            script: |
+              cd /home/webadmin/docker/drupal.madsnorgaard.net
+              git pull origin main
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.2
@@ -123,6 +123,17 @@ jobs:
             cd /home/webadmin/docker/drupal.madsnorgaard.net
             docker-compose up -d > /dev/null 2>&1
 
+      - name: Run Drush deploy hooks
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /home/webadmin/docker/drupal.madsnorgaard.net
+            docker-compose exec -T drupal drush deploy:hook
+
       - name: Check services
         uses: appleboy/ssh-action@v0.1.2
         with:
@@ -131,8 +142,8 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            if [ $(docker ps -f name=madsnorgaard_drupal --format "{{.Names}}" | wc -l) -eq 5 ]; then
-              echo "All 5 containers are running."
+            if [ $(docker ps -f name=madsnorgaard --format "{{.Names}}" | wc -l) -eq 3 ]; then
+              echo "All 3 containers are running."
             else
               echo "Error: Not all containers are running."
               exit 1
