@@ -20,5 +20,4 @@ RUN mkdir -p /opt/drupal/web/sites/default/files/assets/js && \
 # Change working directory to /opt
 WORKDIR /opt/drupal
 
-ENTRYPOINT ["/entrypoint.sh"]
 CMD ["apache2-foreground"]
