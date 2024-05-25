@@ -113,7 +113,7 @@ jobs:
           script: |
             cd /home/webadmin/docker/drupal.madsnorgaard.net
             git pull
-            docker-compose up -d > /dev/null 2>&1
+            docker-compose up -d --build > /dev/null 2>&1
             docker exec madsnorgaard_drupal composer install --prefer-dist --no-progress
 
       - name: Run Drush deploy hooks
