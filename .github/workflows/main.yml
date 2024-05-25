@@ -101,40 +101,25 @@ jobs:
         run: |
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Create SSH config
-        run: |
-          echo -e "Host server\n\
-          HostName ${{ secrets.SERVER_IP }}\n\
-          User webadmin\n\
-          Port ${{ secrets.SSH_PORT }}\n\
-          IdentityFile ~/.ssh/id_rsa\n\
-          StrictHostKeyChecking no\n\
-          LogLevel ERROR\n\
-          NumberOfPasswordPrompts 0\n\
-          IdentitiesOnly yes" > ~/.ssh/config
-
       - name: Pull latest changes
-        run: |
-          ssh server 'cd /home/webadmin/docker/drupal.madsnorgaard.net && git pull origin main'
+        uses: gollumapp/ssh-action@v1
+        with:
+          command: ssh -p ${{ secrets.SSH_PORT }} webadmin@${{ secrets.SERVER_IP }} 'cd /home/webadmin/docker/drupal.madsnorgaard.net && git pull origin main'
+          args: "-i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
 
       - name: Deploy to VPS
-        uses: appleboy/ssh-action@v0.1.2
+        uses: gollumapp/ssh-action@v1
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.DEPLOY_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
+          command: |
+            ssh -p ${{ secrets.SSH_PORT }} webadmin@${{ secrets.SERVER_IP }} << 'EOF'
             cd /home/webadmin/docker/drupal.madsnorgaard.net
             docker-compose down
             docker-compose up -d --build
+            EOF
+          args: "-i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
 
       - name: Check services
-        uses: appleboy/ssh-action@v0.1.2
+        uses: gollumapp/ssh-action@v1
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.DEPLOY_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            docker ps
+          command: ssh -p ${{ secrets.SSH_PORT }} webadmin@${{ secrets.SERVER_IP }} 'docker ps'
+          args: "-i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
