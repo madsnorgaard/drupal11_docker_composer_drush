@@ -101,9 +101,19 @@ jobs:
         run: |
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
+      - name: Create SSH config
+        run: |
+          echo -e "Host server\n\
+          HostName ${{ secrets.SERVER_IP }}\n\
+          User webadmin\n\
+          Port ${{ secrets.SSH_PORT }}\n\
+          IdentityFile ~/.ssh/id_rsa\n\
+          StrictHostKeyChecking no\n\
+          LogLevel ERROR" > ~/.ssh/config
+
       - name: Pull latest changes
         run: |
-          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} webadmin@${{ secrets.SERVER_IP }} 'cd /home/webadmin/docker/drupal.madsnorgaard.net && git pull origin main'
+          ssh server 'cd /home/webadmin/docker/drupal.madsnorgaard.net && git pull origin main'
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.2
