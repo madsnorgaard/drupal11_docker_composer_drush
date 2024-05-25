@@ -81,6 +81,9 @@ services:
       REDIS_HOST: "${REDIS_HOST}"
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
       REDIS_PORT: "${REDIS_PORT}"
+    # Command to fetch all dependencies of Drupal 9 install.
+    # Remove /var/www/html directory and link /opt/web to /var/var/www/.
+    # Run Drupal9 install with composer and start Apache.
     command: bash -c "composer update && rm -rf /var/www/html && ln -s /opt/drupal/web /var/www/html && /usr/local/bin/apache2-foreground"
     labels:
       - "traefik.http.routers.madsnorgaard_drupal.rule=Host(`drupal.madsnorgaard.net`)"

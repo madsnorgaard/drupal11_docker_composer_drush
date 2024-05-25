@@ -85,6 +85,7 @@ jobs:
   deploy:
     needs: docker-setup
     runs-on: ubuntu-latest
+    environment: test-server
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
