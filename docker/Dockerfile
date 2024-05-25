@@ -15,7 +15,10 @@ RUN mkdir -p /opt/drupal/web/sites/default/files/assets/js && \
     chown -R www-data:www-data /opt/drupal/web/sites/default/files && \
     chmod -R 755 /opt/drupal/web/sites/default/files && \
     chown -R www-data:www-data /opt/drupal && \
-    chmod -R 755 /opt/drupal
+    chmod -R 755 /opt/drupal && \
+    mkdir -p /var/www/.composer/cache && \
+    chown -R www-data:www-data /var/www/.composer && \
+    chmod -R 755 /var/www/.composer
 
 # Change working directory to /opt
 WORKDIR /opt/drupal
