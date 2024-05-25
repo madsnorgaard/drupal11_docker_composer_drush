@@ -11,31 +11,28 @@ jobs:
   composer-setup:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-        tools: composer:v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: vendor
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
 
   docker-setup:
     needs: composer-setup
@@ -45,9 +42,11 @@ jobs:
       DB_USER: ${{ secrets.DB_USER }}
       DB_PASS: ${{ secrets.DB_PASS }}
       DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
       HASH_SALT: ${{ secrets.HASH_SALT }}
       REDIS_HOST: ${{ secrets.REDIS_HOST }}
       REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+      REDIS_PORT: ${{ secrets.REDIS_PORT }}
       DOMAIN_NAME: drupal.madsnorgaard.net
       TRUSTED_HOST_PATTERNS: drupal.madsnorgaard.net
       WEBROOT_SITE: web
@@ -67,9 +66,11 @@ jobs:
           echo "DB_USER=$DB_USER" >> .env
           echo "DB_PASS=$DB_PASS" >> .env
           echo "DB_HOST=$DB_HOST" >> .env
+          echo "DB_PORT=$DB_PORT" >> .env
           echo "HASH_SALT=$HASH_SALT" >> .env
           echo "REDIS_HOST=$REDIS_HOST" >> .env
           echo "REDIS_PASSWORD=$REDIS_PASSWORD" >> .env
+          echo "REDIS_PORT=$REDIS_PORT" >> .env
           echo "DOMAIN_NAME=$DOMAIN_NAME" >> .env
           echo "TRUSTED_HOST_PATTERNS=$TRUSTED_HOST_PATTERNS" >> .env
           echo "WEBROOT_SITE=$WEBROOT_SITE" >> .env
@@ -83,21 +84,40 @@ jobs:
 
   deploy:
     needs: docker-setup
-    runs-on: self-hosted # we need to use self-hosted runner to access the VPS due to ip restrictions
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           clean: false
 
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@main
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Copy files to server
+        run: |
+          rsync -avz --exclude '.github' --exclude 'node_modules' --exclude '.git' ./ webadmin@${{ secrets.SERVER_IP }}:/home/webadmin/docker/drupal.madsnorgaard.net
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /var/www/drupal.madsnorgaard.net
-            git pull
+            cd /home/webadmin/docker/drupal.madsnorgaard.net
+            docker-compose down
             docker-compose up -d --build
+
+      - name: Check services
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            docker ps

@@ -1,5 +1,5 @@
 # Project description
-This project includes Drupal 9, Drush 10, Composer install of Drupal Recommended Project and can be used to develop, stage or put into production any Drupal 9 project.
+This project includes Drupal 10, Drush 10, Composer install of Drupal Recommended Project and can be used to develop, stage or put into production any Drupal 10 project.
 
 Also included are drush/config-extra and other utilities for CI/CD in terms of a Drupal project - site updates, database schema updates, database backups, push of databases via git, backup of files, replication of production environments and much more.
 
@@ -73,6 +73,23 @@ Run Drush commands using - this command provides a full list of useful Drush com
    ```sh
    $ docker-compose exec -T drupal ./drush
    ```
-Full list of commands in [Drush 9](https://drushcommands.com/drush-9x/). A list such as this one is not available yet fir Drush 10 but should suffice.
+Full list of commands in [Drush 10](https://drushcommands.com/drush-10x/). A list such as this one is not available yet for Drush 10 but should suffice.
 
-#### Backup
+#### Backup of database using Drush and Docker
+
+To backup the database, we will use Drush, Docker, and Bash. The backup files will be stored in the `backups` directory under `data`.
+
+Here is the command to create a backup:
+
+   ```sh
+   $ docker exec -it madsnorgaard_drupal drush sql-dump --gzip --result-file=/opt/drupal/backups/drupal.madsnorgaard.net-$(date +%Y-%m-%d-%H-%M-%S).sql
+   ```
+
+This command does the following:
+
+- `docker exec -it madsnorgaard_drupal` runs a command in the `madsnorgaard_drupal` Docker container.
+- `drush sql-dump` uses Drush to create a dump of the Drupal database.
+- `--gzip` compresses the dump file using gzip.
+- `--result-file=/opt/drupal/backups/drupal.madsnorgaard.net-$(date +%Y-%m-%d-%H-%M-%S).sql` specifies the output file for the dump. The filename includes the current date and time to ensure that each backup file has a unique name.
+
+After running this command, you can find the backup file in the `data/backups` directory. The backup file will have a `.sql.gz` extension and its name will include the date and time when the backup was created.

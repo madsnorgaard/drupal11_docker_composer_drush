@@ -17,11 +17,11 @@ services:
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_USER: "${DB_USER}"
       MYSQL_PASSWORD: "${DB_PASS}"
-      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+      MYSQL_ROOT_PASSWORD: "${DB_PASS}"
     volumes:
       - ./sql:/var/lib/mysql
     labels:
-      - "traefik.enable=false" # Disable Traefik for this service
+      - "traefik.enable=false"
     networks:
       - internal
 
@@ -59,7 +59,6 @@ services:
     ports:
       - 9998:80
     working_dir: /opt/drupal
-    # Adding persistent volumes for Drupal
     volumes:
       - ./data:/opt/drupal
       - ./composer.json:/opt/drupal/composer.json
@@ -70,21 +69,18 @@ services:
       - ./data/drupal/logs:/opt/drupal/logs
     environment:
       COMPOSER_MEMORY_LIMIT: "2G"
-      WEBROOT_SITE: ${WEBROOT_SITE}
-      DOMAIN: ${DOMAIN_NAME}
-      TRUSTED_HOST_PATTERNS: ${TRUSTED_HOST_PATTERNS}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      DB_NAME: ${DB_NAME}
-      DB_HOST: ${DB_HOST}
-      DB_PORT: 3306
-      HASH_SALT: ${HASH_SALT}
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      REDIS_PORT: 6379
-    # Command to fetch all dependencies of Drupal 9 install. 
-    # Remove /var/www/html directory and link /opt/web to /var/var/www/. 
-    # Run Drupal9 install with composer and start Apache.
+      WEBROOT_SITE: "${WEBROOT_SITE}"
+      DOMAIN: "${DOMAIN_NAME}"
+      TRUSTED_HOST_PATTERNS: "${TRUSTED_HOST_PATTERNS}"
+      DB_USER: "${DB_USER}"
+      DB_PASS: "${DB_PASS}"
+      DB_NAME: "${DB_NAME}"
+      DB_HOST: "${DB_HOST}"
+      DB_PORT: "${DB_PORT}"
+      HASH_SALT: "${HASH_SALT}"
+      REDIS_HOST: "${REDIS_HOST}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      REDIS_PORT: "${REDIS_PORT}"
     command: bash -c "composer update && rm -rf /var/www/html && ln -s /opt/drupal/web /var/www/html && /usr/local/bin/apache2-foreground"
     labels:
       - "traefik.http.routers.madsnorgaard_drupal.rule=Host(`drupal.madsnorgaard.net`)"
@@ -106,11 +102,11 @@ services:
     container_name: madsnorgaard_redis
     volumes:
       - ./data/redis:/data
-    command: [ "redis-server" ]
+    command: ["redis-server"]
     networks:
       - internal
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 20s
       retries: 10
@@ -131,4 +127,3 @@ services:
     restart: unless-stopped
     networks:
       - internal
-
