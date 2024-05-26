@@ -63,6 +63,7 @@ services:
       - ./data:/opt/drupal
       - ./composer.json:/opt/drupal/composer.json
       - ./composer.lock:/opt/drupal/composer.lock
+      - ./config:/opt/drupal/config
       - ./settings.php:/opt/drupal/web/sites/default/settings.php
       - ./data/drupal/private:/opt/drupal/private
       - ./data/drupal/files:/opt/drupal/web/sites/default/files
@@ -88,7 +89,7 @@ services:
     labels:
       - "traefik.http.routers.madsnorgaard_drupal.rule=Host(`drupal.madsnorgaard.net`)"
       - "traefik.http.routers.madsnorgaard_drupal.tls=true"
-      - "traefik.http.routers.madsnorgaard_drupal.tls.certresolver=lets-encrypt"
+      - "traefik.http.routers.madswnorgaard_drupal.tls.certresolver=lets-encrypt"
       - "traefik.http.middlewares.madsnorgaard_drupal-www-https-redirect.redirectregex.permanent=true"
       - "traefik.http.middlewares.madsnorgaard_drupal-secure-www-redirect.redirectregex.permanent=true"
       - "traefik.http.middlewares.web-www-https-redirect.redirectregex.permanent=true"
