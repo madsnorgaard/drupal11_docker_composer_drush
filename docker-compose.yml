@@ -83,7 +83,7 @@ services:
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       REDIS_PORT: 6379
-    command: bash -c "composer install && rm -rf /var/www/html && ln -s /opt/drupal/web /var/www/html && /usr/local/bin/apache2-foreground"
+    command: bash -c "composer update && rm -rf /var/www/html && ln -s /opt/drupal/web /var/www/html && /usr/local/bin/apache2-foreground"
     labels:
       - "traefik.http.routers.madsnorgaard_drupal.rule=Host(`drupal.madsnorgaard.net`)"
       - "traefik.http.routers.madsnorgaard_drupal.tls=true"
