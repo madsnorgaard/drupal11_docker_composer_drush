@@ -81,7 +81,7 @@ services:
       REDIS_HOST: "${REDIS_HOST}"
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
       REDIS_PORT: "${REDIS_PORT}"
-    # Command to fetch all dependencies of Drupal 9 install.
+    # Command to fetch all dependencies of Drupal 10 install.
     # Remove /var/www/html directory and link /opt/web to /var/var/www/.
     # Run Drupal9 install with composer and start Apache.
     command: bash -c "composer install && rm -rf /var/www/html && ln -s /opt/drupal/web /var/www/html && /usr/local/bin/apache2-foreground"

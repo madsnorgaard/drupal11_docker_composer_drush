@@ -20,7 +20,7 @@ For development purposes this project can be started with:
    $ docker-compose up -d
    ```
 
-Drupal 9 will be available via [localhost:9998](http://localhost:9998/)
+Drupal 10 will be available via [localhost:9998](http://localhost:9998/)
 
 phpMyAdmin will for development purposes be available via [localhost:9999](http://localhost:9999/)
 
