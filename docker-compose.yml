@@ -13,15 +13,16 @@ services:
     env_file:
     - .env
     restart: always
+    user: "mysql"  # Ensure it runs as the correct user
     environment:
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_USER: "${DB_USER}"
       MYSQL_PASSWORD: "${DB_PASS}"
-      MYSQL_ROOT_PASSWORD: "${DB_PASS}"
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
     volumes:
       - ./data/mysql:/var/lib/mysql
     labels:
-      - "traefik.enable=false"
+      - "traefik.enable=false" # Disable Traefik for this service
     networks:
       - internal
 
@@ -59,37 +60,34 @@ services:
     ports:
       - 9998:80
     working_dir: /opt/drupal
+    user: www-data # Ensure the container runs as www-data user
     volumes:
       - ./data:/opt/drupal
       - ./composer.json:/opt/drupal/composer.json
       - ./composer.lock:/opt/drupal/composer.lock
-      - ./config:/opt/drupal/config
       - ./settings.php:/opt/drupal/web/sites/default/settings.php
       - ./data/drupal/private:/opt/drupal/private
       - ./data/drupal/files:/opt/drupal/web/sites/default/files
       - ./data/drupal/logs:/opt/drupal/logs
     environment:
       COMPOSER_MEMORY_LIMIT: "2G"
-      WEBROOT_SITE: "${WEBROOT_SITE}"
-      DOMAIN: "${DOMAIN_NAME}"
-      TRUSTED_HOST_PATTERNS: "${TRUSTED_HOST_PATTERNS}"
-      DB_USER: "${DB_USER}"
-      DB_PASS: "${DB_PASS}"
-      DB_NAME: "${DB_NAME}"
-      DB_HOST: "${DB_HOST}"
-      DB_PORT: "${DB_PORT}"
-      HASH_SALT: "${HASH_SALT}"
-      REDIS_HOST: "${REDIS_HOST}"
-      REDIS_PASSWORD: "${REDIS_PASSWORD}"
-      REDIS_PORT: "${REDIS_PORT}"
-    # Command to fetch all dependencies of Drupal 10 install.
-    # Remove /var/www/html directory and link /opt/web to /var/var/www/.
-    # Run Drupal9 install with composer and start Apache.
+      WEBROOT_SITE: ${WEBROOT_SITE}
+      DOMAIN: ${DOMAIN_NAME}
+      TRUSTED_HOST_PATTERNS: ${TRUSTED_HOST_PATTERNS}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: 3306
+      HASH_SALT: ${HASH_SALT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_PORT: 6379
     command: bash -c "composer install && rm -rf /var/www/html && ln -s /opt/drupal/web /var/www/html && /usr/local/bin/apache2-foreground"
     labels:
       - "traefik.http.routers.madsnorgaard_drupal.rule=Host(`drupal.madsnorgaard.net`)"
       - "traefik.http.routers.madsnorgaard_drupal.tls=true"
-      - "traefik.http.routers.madswnorgaard_drupal.tls.certresolver=lets-encrypt"
+      - "traefik.http.routers.madsnorgaard_drupal.tls.certresolver=lets-encrypt"
       - "traefik.http.middlewares.madsnorgaard_drupal-www-https-redirect.redirectregex.permanent=true"
       - "traefik.http.middlewares.madsnorgaard_drupal-secure-www-redirect.redirectregex.permanent=true"
       - "traefik.http.middlewares.web-www-https-redirect.redirectregex.permanent=true"
