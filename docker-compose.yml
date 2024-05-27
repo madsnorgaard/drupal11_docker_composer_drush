@@ -67,6 +67,7 @@ services:
       - ./composer.json:/opt/drupal/composer.json
       - ./composer.lock:/opt/drupal/composer.lock
       - ./settings.php:/opt/drupal/web/sites/default/settings.php
+      - ./config:/opt/drupal/config
     environment:
       COMPOSER_MEMORY_LIMIT: "2G"
       WEBROOT_SITE: ${WEBROOT_SITE}
@@ -81,7 +82,6 @@ services:
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       REDIS_PORT: 6379
-    command: bash -c "composer update && rm -rf /var/www/html && ln -s /opt/drupal/web /var/www/html && /usr/local/bin/apache2-foreground"
     labels:
       - "traefik.http.routers.madsnorgaard_drupal.rule=Host(`drupal.madsnorgaard.net`)"
       - "traefik.http.routers.madsnorgaard_drupal.tls=true"
