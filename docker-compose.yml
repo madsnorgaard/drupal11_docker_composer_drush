@@ -13,7 +13,7 @@ services:
     env_file:
     - .env
     restart: always
-    user: "mysql"  # Ensure it runs as the correct user
+    user: 1000:1000
     environment:
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_USER: "${DB_USER}"
@@ -34,6 +34,7 @@ services:
     ports:
       - 9999:80
     restart: always
+    user: 1000:1000
     environment:
       PMA_HOST: "${DB_HOST}"
       PMA_USER: "${DB_USER}"
@@ -60,7 +61,7 @@ services:
     ports:
       - 9998:80
     working_dir: /opt/drupal
-    user: www-data # Ensure the container runs as www-data user
+    user: 1000:1000
     volumes:
       - ./data:/opt/drupal
       - ./composer.json:/opt/drupal/composer.json
