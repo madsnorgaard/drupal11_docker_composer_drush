@@ -13,7 +13,7 @@ services:
     env_file:
     - .env
     restart: always
-    user: 1000
+    user: "1000"
     environment:
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_USER: "${DB_USER}"
@@ -34,7 +34,7 @@ services:
     ports:
       - 9999:80
     restart: always
-    user: 1000
+    user: "1000"
     environment:
       PMA_HOST: "${DB_HOST}"
       PMA_USER: "${DB_USER}"
@@ -61,7 +61,7 @@ services:
     ports:
       - 9998:80
     working_dir: /opt/drupal
-    user: 1000
+    user: "1000"
     volumes:
       - ./data:/opt/drupal
       - ./composer.json:/opt/drupal/composer.json
