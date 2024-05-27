@@ -13,7 +13,7 @@ services:
     env_file:
     - .env
     restart: always
-    user: 1000:1000
+    user: 1000
     environment:
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_USER: "${DB_USER}"
@@ -34,7 +34,7 @@ services:
     ports:
       - 9999:80
     restart: always
-    user: 1000:1000
+    user: 1000
     environment:
       PMA_HOST: "${DB_HOST}"
       PMA_USER: "${DB_USER}"
@@ -61,15 +61,12 @@ services:
     ports:
       - 9998:80
     working_dir: /opt/drupal
-    user: 1000:1000
+    user: 1000
     volumes:
       - ./data:/opt/drupal
       - ./composer.json:/opt/drupal/composer.json
       - ./composer.lock:/opt/drupal/composer.lock
       - ./settings.php:/opt/drupal/web/sites/default/settings.php
-      - ./data/drupal/private:/opt/drupal/private
-      - ./data/drupal/files:/opt/drupal/web/sites/default/files
-      - ./data/drupal/logs:/opt/drupal/logs
     environment:
       COMPOSER_MEMORY_LIMIT: "2G"
       WEBROOT_SITE: ${WEBROOT_SITE}
