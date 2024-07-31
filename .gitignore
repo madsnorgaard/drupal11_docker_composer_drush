@@ -9,8 +9,6 @@ private/
 solr/
 web/
 
-
-
 # Hosting data
 data/composer.json
 data/composer.lock
@@ -22,6 +20,7 @@ data/drupal/
 data/.gitattributes
 data/private/
 data/web/
+data/mysql/
 
 # Drupal files we get from Composer and scaffolding
 data/drupal/vendor

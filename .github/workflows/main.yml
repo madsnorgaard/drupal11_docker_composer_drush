@@ -103,7 +103,7 @@ jobs:
           chmod 700 ~/.ssh
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Deploy to VPS
+      - name: Deploy to VPS and Install dependencies
         uses: appleboy/ssh-action@v0.1.2
         with:
           host: ${{ secrets.SERVER_IP }}
@@ -112,7 +112,9 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /home/webadmin/docker/drupal.madsnorgaard.net
-            docker-compose up -d > /dev/null 2>&1
+            git pull
+            docker-compose up -d --build > /dev/null 2>&1
+            docker exec -it madsnorgaard_drupal composer install --prefer-dist --no-progress
 
       - name: Install dependencies
         run: docker exec -w /home/webadmin/docker/drupal.madsnorgaard.net -T drupal composer install --no-progress --prefer-dist --optimize-autoloader
@@ -126,7 +128,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /home/webadmin/docker/drupal.madsnorgaard.net
-            docker-compose exec -T drupal drush deploy:hook
+            docker exec -it madsnorgaard_drupal drush deploy:hook
 
       - name: Check services
         uses: appleboy/ssh-action@v0.1.2
@@ -136,9 +138,12 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            if [ $(docker ps -f name=madsnorgaard_drupal --format "{{.Names}}" | wc -l) -eq 3 ]; then
-              echo "All 3 containers are running."
-            else
-              echo "Error: Not all containers are running."
-              exit 1
-            fi
+            services=("madsnorgaard_drupal" "madsnorgaard_drupal_db_admin" "madsnorgaard_drupal_db" "madsnorgaard_redis" "madsnorgaard_solr")
+
+            for service in "${services[@]}"; do
+              if [ $(docker ps -f name=$service --format "{{.Names}}" | wc -l) -eq 1 ]; then
+                echo "$service is running."
+              else
+                echo "Error: $service is not running."
+              fi
+            done
