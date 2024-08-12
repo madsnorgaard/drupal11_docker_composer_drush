@@ -63,7 +63,6 @@ services:
     working_dir: /opt/drupal
     user: "1000"
     volumes:
-      - ./data:/opt/drupal
       - ./web:/opt/drupal/web
       - ./composer.json:/opt/drupal/composer.json
       - ./composer.lock:/opt/drupal/composer.lock
