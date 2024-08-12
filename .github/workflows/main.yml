@@ -80,7 +80,8 @@ jobs:
           docker network ls | grep -wq web || docker network create web
 
       - name: Start Docker containers
-        run: docker-compose up -d
+        run: |
+          docker-compose up -d --build
 
   deploy:
     needs: docker-setup
