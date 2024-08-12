@@ -120,7 +120,7 @@ jobs:
             cd /home/webadmin/docker/drupal.madsnorgaard.net
             git pull
             docker-compose up -d --build > /dev/null 2>&1
-            docker exec madsnorgaard_drupal bash -c "chown -R webadmin:webadmin /opt/drupal && chmod -R 775 /opt/drupal"
+            chown -R webadmin:webadmin /home/webadmin/docker/drupal.madsnorgaard.net
             docker exec madsnorgaard_drupal composer install --prefer-dist --no-progress
 
       - name: Install dependencies
