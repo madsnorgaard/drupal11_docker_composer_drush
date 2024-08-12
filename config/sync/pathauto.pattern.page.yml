@@ -5,14 +5,14 @@ dependencies:
   module:
     - node
 id: page
-label: page
+label: Page
 type: 'canonical_entities:node'
 pattern: '[node:title]'
 selection_criteria:
-  49d227b0-b7aa-4def-8f36-5d59e3a055d8:
+  811ea084-b373-4c63-9de4-057b7dc2f266:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 49d227b0-b7aa-4def-8f36-5d59e3a055d8
+    uuid: 811ea084-b373-4c63-9de4-057b7dc2f266
     context_mapping:
       node: node
     bundles:

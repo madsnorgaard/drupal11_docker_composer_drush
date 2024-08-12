@@ -7,12 +7,12 @@ dependencies:
 id: articles
 label: Articles
 type: 'canonical_entities:node'
-pattern: 'article/[current-page:title]'
+pattern: 'article/[node:title]'
 selection_criteria:
-  f9b3cf80-3d8e-4426-94b2-2ec8ccd21303:
+  171adbd1-c6f9-4e01-b1f9-afeaf2b7d708:
     id: 'entity_bundle:node'
     negate: false
-    uuid: f9b3cf80-3d8e-4426-94b2-2ec8ccd21303
+    uuid: 171adbd1-c6f9-4e01-b1f9-afeaf2b7d708
     context_mapping:
       node: node
     bundles:
