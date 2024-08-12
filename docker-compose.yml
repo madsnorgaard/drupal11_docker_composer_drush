@@ -61,7 +61,6 @@ services:
     ports:
       - 9998:80
     working_dir: /opt/drupal
-    user: "1000"
     volumes:
       - ./web:/opt/drupal/web
       - ./composer.json:/opt/drupal/composer.json
