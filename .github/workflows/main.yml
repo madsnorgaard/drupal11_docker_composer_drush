@@ -92,6 +92,7 @@ jobs:
     needs: docker-setup
     runs-on: ubuntu-latest
     environment: test-server
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
