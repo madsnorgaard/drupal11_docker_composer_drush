@@ -1,7 +1,7 @@
-[![CI/CD Workflow](https://github.com/madsnorgaard/drupal10_docker_composer_drush/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/madsnorgaard/drupal10_docker_composer_drush/actions/workflows/main.yml)
+[![CI/CD Workflow](https://github.com/madsnorgaard/drupal11_docker_composer_drush/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/madsnorgaard/drupal11_docker_composer_drush/actions/workflows/main.yml)
 
 # Project description
-This project includes Drupal 10, Drush 10, Composer install of Drupal Recommended Project and can be used to develop, stage or put into production any Drupal 10 project.
+This project includes Drupal 11, Drush 13, Composer install of Drupal Recommended Project and can be used to develop, stage or put into production any Drupal 11 project.
 
 Also included are drush/config-extra and other utilities for CI/CD in terms of a Drupal project - site updates, database schema updates, database backups, push of databases via git, backup of files, replication of production environments and much more.
 
@@ -20,7 +20,7 @@ For development purposes this project can be started with:
    $ docker-compose up -d
    ```
 
-Drupal 10 will be available via [localhost:9998](http://localhost:9998/)
+Drupal 11 will be available via [localhost:9998](http://localhost:9998/)
 
 phpMyAdmin will for development purposes be available via [localhost:9999](http://localhost:9999/)
 
@@ -75,7 +75,6 @@ Run Drush commands using - this command provides a full list of useful Drush com
    ```sh
    $ docker-compose exec -T drupal ./drush
    ```
-Full list of commands in [Drush 10](https://drushcommands.com/drush-10x/). A list such as this one is not available yet for Drush 10 but should suffice.
 
 #### Backup of database using Drush and Docker
 
