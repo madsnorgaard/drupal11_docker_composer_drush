@@ -1,0 +1,60 @@
+uuid: 8076d706-b647-49aa-819b-e091ce0d4294
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: efhRnCF4tfAg282X5gHuW3ReEsFLDQUJq4NkjHPnnbc
+id: user_create
+label: 'User create'
+routes:
+  -
+    route_name: user.admin_create
+tips:
+  user-create-overview:
+    id: user-create-overview
+    plugin: text
+    label: 'Add User'
+    body: 'The "Add User" page allows you to create new users for the site and assign them roles.'
+    weight: 1
+  create-mail:
+    id: create-mail
+    plugin: text
+    label: 'Login Credentials'
+    body: 'The <em>email address</em> has to be unique.'
+    weight: 2
+    selector: '#edit-mail'
+  create-username:
+    id: create-username
+    plugin: text
+    label: Username
+    body: 'The username has to be unique.  It is how the sites Administrators will identify the user.'
+    weight: 3
+    selector: '#edit-name'
+  create-new-pass:
+    id: create-new-pass
+    plugin: text
+    label: 'Password Credentials'
+    body: 'A <em>password</em> is needed for the user to access their account.  See best practices for <a href="https://www.drupal.org/docs/8/security/us-nist-password-guidelines-review">email creation here</a>'
+    weight: 4
+    selector: '#edit-pass-pass1'
+  create-status:
+    id: create-status
+    plugin: text
+    label: 'The status'
+    body: 'The status determines if the user is able to login or not. It&lsquo;s useful in case that new accounts need administrator approval before being active. The default value for new accounts can be changed in the <a href="[site:url]admin/config/people/accounts#create-registration-cancellation">account settings</a>.'
+    weight: 5
+    selector: '#edit-status'
+  notify-user:
+    id: notify-user
+    plugin: text
+    label: 'Notify user'
+    body: 'You can choose to send this newly created user a notification email.'
+    weight: 6
+    selector: '#edit-notify'
+  add-user-picture:
+    id: add-user-picture
+    plugin: text
+    label: 'User Picture'
+    body: 'Uploading a picture is a great way to help identify users.'
+    weight: 7
+    selector: '#edit-user-picture-0-upload'

@@ -1,0 +1,40 @@
+uuid: f6853cac-b9b7-4616-a59b-8ac858d91cfd
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 9Mysqv2PH8Z259jhrNR1kBMTyR3-fAwa0o3IOL4Y5YQ
+id: admin_content
+label: 'Admin Content'
+routes:
+  -
+    route_name: system.admin_content
+tips:
+  add_content:
+    id: add_content
+    plugin: text
+    label: 'Add content'
+    weight: -10
+    selector: 'li.local-actions__item .button--action'
+    body: 'Clicking <strong>Add content</strong> button will take the user to <code>node/add</code> page to select which kind of content type to create.'
+  filters:
+    id: filters
+    plugin: text
+    label: Filters
+    weight: -10
+    selector: '.view-content .views-exposed-form'
+    body: 'Use the exposed filters to drill down the list of content to find the desired node.'
+  bulk_checkbox:
+    id: bulk_checkbox
+    plugin: text
+    label: 'Bulk checkbox'
+    weight: -10
+    selector: '.views-field-node-bulk-form .views-field-node-bulk-form'
+    body: 'To perform bulk actions on specific number of nodes first check which nodes to act on.'
+  bulk_actions:
+    id: bulk_actions
+    plugin: text
+    label: 'Bulk actions'
+    weight: -10
+    selector: .views-bulk-actions
+    body: 'Once the items have been selected, use the bulk actions form to perform the actions.'

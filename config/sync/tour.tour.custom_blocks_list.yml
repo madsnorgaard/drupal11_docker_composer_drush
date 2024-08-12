@@ -1,0 +1,39 @@
+uuid: d2cb8f8e-0f54-4bbb-b432-85016f943a88
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Bv989Wsfqu9K6TlxTaSKxWm3dIBKbyVjI7aucI8IPeQ
+id: custom_blocks_list
+label: 'Custom Blocks List'
+routes:
+  -
+    route_name: entity.block_content_type.collection
+tips:
+  title:
+    id: title
+    plugin: text
+    label: 'Custom blocks'
+    weight: 1
+    body: 'Custom block are used to create content that can be displayed in block regions such as sidebars.'
+  blocks-and-types:
+    id: blocks-and-types
+    plugin: text
+    label: 'Blocks and types'
+    weight: 2
+    selector: .button--primary
+    body: 'Here you can create special types.'
+  available-custom-blocks:
+    id: available-custom-blocks
+    plugin: text
+    label: 'Available custom blocks'
+    weight: 3
+    selector: .block-system-main-block
+    body: 'Below are the current available custom blocks.'
+  edit-button:
+    id: edit-button
+    plugin: text
+    label: 'Edit button'
+    weight: 4
+    selector: .dropbutton-widget
+    body: 'By click on dropdown, you will find edit option, can edit block content and how it is displayed via the dropdown links.'

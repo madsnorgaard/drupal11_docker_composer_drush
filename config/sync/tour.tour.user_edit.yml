@@ -1,0 +1,53 @@
+uuid: 3cdb24bf-b747-4a9b-bea3-02fe565dcfb7
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: NjiAOa8W1V0F5FJQj_K_pmM1nJvy1Z-z_NKfqebTobE
+id: user_edit
+label: 'User edit'
+routes:
+  -
+    route_name: entity.user.edit_form
+tips:
+  user-edit-overview:
+    id: user-edit-overview
+    plugin: text
+    label: 'Edit User'
+    body: 'The "Edit User" page allows you to reset a user&lsquo;s password, user name, email, status and roles.'
+    weight: 1
+  edit-current-pass:
+    id: edit-current-pass
+    plugin: text
+    label: 'Password Credentials'
+    body: 'The <em>current password</em> is needed for the user to set a new <em>password</em> themselves.'
+    weight: 2
+    selector: '#edit-current-pass'
+  edit-mail:
+    id: edit-mail
+    plugin: text
+    label: 'Login Credentials'
+    body: 'The <em>email address</em> has to be unique.'
+    weight: 3
+    selector: '#edit-mail'
+  edit-username:
+    id: edit-username
+    plugin: text
+    label: Username
+    body: 'The username has to be unique.  It is how the sites Administrators will identify the user.'
+    weight: 4
+    selector: '#edit-name'
+  edit-status:
+    id: edit-status
+    plugin: text
+    label: 'The status'
+    body: 'The status determines if the user is able to login or not. It&lsquo;s useful in case that new accounts need administrator approval before being active. The default value for new accounts can be changed in the <a href="[site:url]admin/config/people/accounts#edit-registration-cancellation">account settings</a>.'
+    weight: 5
+    selector: '#edit-status'
+  edit-user-picture:
+    id: edit-user-picture
+    plugin: text
+    label: 'User Picture'
+    body: 'Uploading a picture is a great way to help identify users.'
+    weight: 6
+    selector: '#edit-user-picture-0-upload'

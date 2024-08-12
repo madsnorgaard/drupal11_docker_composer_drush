@@ -1,0 +1,46 @@
+uuid: abb977ae-c597-4318-bebe-4b54617da96a
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: _HdSRRFXwtWcaqcFw7-p6IJHtyqyEgG37_wbx4fNsF4
+id: shortcut_manage
+label: 'Add or edit a shortcut in a shortcut set.'
+routes:
+  -
+    route_name: entity.shortcut_set.customize_form
+tips:
+  introduction:
+    id: introduction
+    plugin: text
+    label: 'Adding or editing a shortcut'
+    weight: 1
+    body: 'This form can be used to edit an existing shortcut or add a new shortcut to your site. You can also reorder your shortcuts, but remember to save.'
+  add-shortcut-button:
+    id: add-shortcut-button
+    plugin: text
+    label: 'Add a new link'
+    weight: 2
+    selector: a.button--primary
+    body: 'Click here to add a new link to your shortcuts.'
+  rearrange-shortcuts-anchor:
+    id: rearrange-shortcuts-anchor
+    plugin: text
+    label: 'Rearrange your shortcuts'
+    weight: 3
+    selector: .tabledrag-handle
+    body: 'Click here and drag to rearrange existing shortcuts.'
+  container-shortcut_edit:
+    id: container-shortcut-edit
+    plugin: text
+    label: 'Edit this shortcut'
+    weight: 4
+    selector: 'div.dropbutton-widget > ul > li.dropbutton__item'
+    body: 'Click here to edit this shortcut link.'
+  container-shortcut-remove:
+    id: container-shortcut-remove
+    plugin: text
+    label: 'Remove a link'
+    weight: 5
+    selector: 'div.dropbutton-widget > ul > li.dropbutton-toggle > button'
+    body: 'Click here if you need to remove a link.'

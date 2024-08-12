@@ -1,0 +1,46 @@
+uuid: aea2689e-512a-47f4-a683-9771de398119
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: _zKhw5Bp0EaNsvv5er08J6LCbgMkUupAaV04BzJ_tfw
+id: field_ui_fields
+label: 'Field UI fields'
+routes:
+  -
+    route_name: entity.node.field_ui_fields
+tips:
+  introduction:
+    id: introduction
+    plugin: text
+    label: 'Manage fields'
+    weight: 1
+    body: 'Manage fields that are assigned to a specific content type. You can create new fields, reuse existing fields, and delete fields.'
+  field-type:
+    id: field-type
+    plugin: text
+    label: 'Field type'
+    weight: 2
+    selector: '#field-overview > thead > tr > th:nth-child(3)'
+    body: 'The field type is the type of data this field will store, e.g., a list of items.'
+  operations:
+    id: operations
+    plugin: text
+    label: Operations
+    weight: 3
+    selector: '#field-overview > thead > tr > th:nth-child(4)'
+    body: 'Use the drop-down button to edit or delete fields.'
+  add-new-field:
+    id: add-new-field
+    plugin: text
+    label: 'Add new field'
+    weight: 4
+    selector: '.region-content > div > ul.local-actions > li.local-actions__item:first-child'
+    body: 'To create a new field, choose type of field & label need to be provided. The label field will automatically fill out the machine name field.'
+  add-existing-field:
+    id: add-existing-field
+    plugin: text
+    label: 'Add existing field'
+    weight: 5
+    selector: '.region-content > div > ul.local-actions > li.local-actions__item:nth-child(2)'
+    body: 'Previously created fields can be reused on other content types. This allows for consistency across content type forms.'

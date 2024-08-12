@@ -1,0 +1,88 @@
+uuid: fa474715-bd5e-4b99-bce6-70b81650f783
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: KXFjV2ug4FkcrH6Az8Rjm-rGuU5lsCvy2nRy_vsUBJI
+id: extend
+label: Extend
+routes:
+  -
+    route_name: system.modules_list
+tips:
+  extend-main:
+    id: extend-main
+    plugin: text
+    label: 'Extending the site'
+    weight: 0
+    body: 'To extend the functionality of the site you enable modules that provide a discrete set of features. Besides the core modules that are included by default, you can find <a href="https://www.drupal.org/project/project_module">a large number of modules on drupal.org</a> that are contributed by the Drupal community.'
+  extend-core:
+    id: extend-core
+    plugin: text
+    label: 'Viewing core modules'
+    weight: 1
+    body: 'The <em>Core</em> modules group contains the modules that are included in Drupal by default. Contributed modules found on drupal.org will be placed in other groups. You can disable core modules if no other modules depend on them.'
+    selector: '#edit-modules-core summary'
+    position: top
+  extend-open-details:
+    id: extend-open-details
+    plugin: text
+    label: 'Viewing details'
+    weight: 2
+    body: 'Click on the module description for more information. If the module is enabled you will find links to the configuration and permissions pages.'
+    selector: '.system-modules tr:first-child td:nth-child(3)'
+    position: bottom
+  extend-enabling:
+    id: extend-enabling
+    plugin: text
+    label: 'Enabling modules'
+    weight: 3
+    body: 'Select one or more modules and click the <em>Install</em> button at the bottom of the page to enable them.'
+    selector: '.system-modules tr:first-child td:first-child'
+    position: bottom
+  extend-adding:
+    id: extend-adding
+    plugin: text
+    label: 'Adding contributed modules'
+    weight: 4
+    body: 'Add contributed modules or themes by providing a link to an archive files or by uploading an archive file.'
+    selector: .action-links
+    position: bottom
+  extend-search:
+    id: extend-search
+    plugin: text
+    label: 'Searching modules'
+    weight: 5
+    body: 'Filter the list of modules by entering a part of the module name.'
+    selector: .form-search
+    position: bottom
+  extend-update:
+    id: extend-update
+    plugin: text
+    label: 'Updating modules'
+    weight: 6
+    body: 'View modules that have updates available.'
+    selector: '.tabs a[href="/admin/modules/update"]'
+    position: bottom
+  extend-uninstall:
+    id: extend-uninstall
+    plugin: text
+    label: 'Uninstalling modules'
+    weight: 7
+    body: 'You can uninstall modules that you are not using. This can result in increased site performance.'
+    selector: '.tabs a[href="/admin/modules/uninstall"]'
+    position: bottom
+  extend-save:
+    id: extend-save
+    plugin: text
+    label: 'Saving changes'
+    weight: 8
+    body: 'To enable modules, select them and click <em>Install</em>.'
+    selector: '#edit-actions'
+    position: top
+  extend-more:
+    id: extend-more
+    plugin: text
+    label: 'More information'
+    body: 'For more information, see <a href="/admin/help/system">the help text</a> and <a href="https://www.drupal.org/docs/user_guide/en/index.html">the online documentation</a>.'
+    weight: 9
