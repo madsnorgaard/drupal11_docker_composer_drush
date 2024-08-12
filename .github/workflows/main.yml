@@ -132,16 +132,14 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /home/webadmin/docker/drupal.madsnorgaard.net
-            # Check status using drush status
-            docker exec madsnorgaard_drupal drush status
             # Run deploy commands
-            docker exec -it madsnorgaard_drupal drush cr
-            docker exec -it madsnorgaard_drupal drush updb -y
-            docker exec -it madsnorgaard_drupal drush cr
-            docker exec -it madsnorgaard_drupal drush cim -y
-            docker exec -it madsnorgaard_drupal drush locale-check
-            docker exec -it madsnorgaard_drupal drush locale-update
-            docker exec -it madsnorgaard_drupal drush cr
+            docker exec madsnorgaard_drupal drush cr
+            docker exec madsnorgaard_drupal drush updb -y
+            docker exec madsnorgaard_drupal drush cr
+            docker exec madsnorgaard_drupal drush cim -y
+            docker exec madsnorgaard_drupal drush locale-check
+            docker exec madsnorgaard_drupal drush locale-update
+            docker exec madsnorgaard_drupal drush cr
 
       - name: Check services
         uses: appleboy/ssh-action@v0.1.2
