@@ -1,4 +1,4 @@
-FROM drupal:10-php8.2-apache
+FROM drupal:10-php8.3-apache
 
 RUN set -eux; \
     apt-get update; \
