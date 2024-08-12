@@ -34,6 +34,7 @@ class ChatbotController extends ControllerBase {
           'link' => $item['link'],
         ];
       }
+
     } else {
       $latest_updates[] = ['message' => 'No updates available at the moment.'];
     }

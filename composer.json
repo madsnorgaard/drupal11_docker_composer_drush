@@ -24,6 +24,7 @@
         "drupal/core-recommended": "^11",
         "drupal/gin": "^3.0@beta",
         "drupal/gin_toolbar": "^1.0@RC",
+        "drupal/pathauto": "^1.13",
         "drupal/tour": "^2.0",
         "drush/drush": "^13"
     },

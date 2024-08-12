@@ -7,11 +7,11 @@ _core:
 name: wide
 label: 'Wide (1090)'
 effects:
-  09959c15-59ce-4f6d-90df-e2d7cf32bce5:
-    uuid: 09959c15-59ce-4f6d-90df-e2d7cf32bce5
-    id: image_scale
-    weight: 1
+  ed5fe564-e8d9-47d7-ad3b-7927e543cabc:
+    uuid: ed5fe564-e8d9-47d7-ad3b-7927e543cabc
+    id: image_scale_and_crop
+    weight: 2
     data:
-      width: 1090
-      height: null
-      upscale: false
+      width: 1200
+      height: 500
+      anchor: center-center
