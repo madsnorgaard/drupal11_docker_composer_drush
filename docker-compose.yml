@@ -64,6 +64,7 @@ services:
     user: "1000"
     volumes:
       - ./data:/opt/drupal
+      - ./web:/opt/drupal/web
       - ./composer.json:/opt/drupal/composer.json
       - ./composer.lock:/opt/drupal/composer.lock
       - ./settings.php:/opt/drupal/web/sites/default/settings.php
