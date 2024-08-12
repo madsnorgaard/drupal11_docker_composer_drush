@@ -34,6 +34,9 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
+      - name: Run PHP CodeSniffer for Drupal 11
+        run: vendor/bin/phpcs --standard=Drupal web/modules/custom web/themes/custom
+
   docker-setup:
     needs: composer-setup
     runs-on: ubuntu-latest
