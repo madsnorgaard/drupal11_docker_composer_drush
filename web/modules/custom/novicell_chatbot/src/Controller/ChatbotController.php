@@ -35,7 +35,8 @@ class ChatbotController extends ControllerBase {
         ];
       }
 
-    } else {
+    }
+    else {
       $latest_updates[] = ['message' => 'No updates available at the moment.'];
     }
 
