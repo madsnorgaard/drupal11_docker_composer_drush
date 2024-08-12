@@ -1,0 +1,62 @@
+uuid: 1dd54269-ba30-4f58-a201-e13c21adda07
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: jII2q78JzjRC5i9gdorUwH3DD_yprr9Xnq5Ou2k15Xw
+id: node_form
+label: 'Edit content'
+routes:
+  -
+    route_name: node.add
+  -
+    route_name: entity.node.edit_form
+tips:
+  node-form-main:
+    id: node-form-main
+    plugin: text
+    label: 'Content creation'
+    weight: 1
+    body: 'Use this page to add or edit content on your site.'
+  node-form-title:
+    id: node-form-title
+    plugin: text
+    label: 'The title field'
+    weight: 2
+    body: 'Use this to name your page. The title is typically displayed as a headline at the top of the page.'
+    selector: '#edit-title-wrapper'
+  node-content-region:
+    id: node-content-region
+    plugin: text
+    label: 'Content fields'
+    weight: 3
+    body: 'Use the fields in this region to <em>create</em> content.'
+    selector: .layout-region__content
+  node-form-options:
+    id: node-form-options
+    plugin: text
+    label: 'Optional information'
+    weight: 4
+    body: 'The rest of the settings are optional. They help control how and where your content is published on your site.'
+    selector: '#edit-advanced'
+  node-form-preview:
+    id: node-form-preview
+    plugin: text
+    label: 'Previewing content'
+    weight: 5
+    body: 'Previewing shows you what your page will look like when published. This does not save your page or make it live.'
+    selector: '#edit-preview'
+  node-form-published:
+    id: node-form-published
+    plugin: text
+    label: 'Publishing content'
+    weight: 6
+    body: 'Published checkbox determines if page is published or unpublished.'
+    selector: .edit-status-wrapper
+  node-form-submit:
+    id: node-form-submit
+    plugin: text
+    label: 'Saving or deleting content'
+    weight: 7
+    body: 'This is where you save or delete your pages. Saving updates them in your database; publishing makes them live and public on your site.'
+    selector: '#edit-actions'

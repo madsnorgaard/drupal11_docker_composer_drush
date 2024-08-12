@@ -1,0 +1,46 @@
+uuid: 605abffb-db27-4121-a592-591ff50d0d91
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: mzLZab0jNv2PWxR-n3MusAbHDWRmmORvbYizb12ZHxA
+id: field_ui_display
+label: 'Field UI display'
+routes:
+  -
+    route_name: entity.entity_view_display.node.default
+tips:
+  introduction:
+    id: introduction
+    plugin: text
+    label: 'Manage display'
+    weight: 1
+    body: 'Manage how the content type fields are displayed on your site.'
+  display-modes:
+    id: display-modes
+    plugin: text
+    label: 'Display modes'
+    weight: 2
+    selector: .tabs--secondary
+    body: 'Display modes allow content to be output in different ways. E.g., Default display shows all fields, but Teaser display shows only one or two.'
+  label:
+    id: label
+    plugin: text
+    label: 'Field label'
+    weight: 3
+    selector: '#field-display-overview > thead > tr > th:first-child'
+    body: 'Field labels can be positioned above, inline or hidden.'
+  format:
+    id: format
+    plugin: text
+    label: Format
+    weight: 4
+    selector: '#field-display-overview > thead > tr > th:nth-child(7)'
+    body: 'Formats are used to display field information in different ways, e.g., tags can be displayed in plain text or link form.'
+  custom-display-settings:
+    id: format
+    plugin: text
+    label: 'Custom display settings'
+    weight: 5
+    selector: '#edit-modes'
+    body: 'Extend field display functionality by enabling additional view modes.'

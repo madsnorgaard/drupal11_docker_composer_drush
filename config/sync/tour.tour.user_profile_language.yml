@@ -1,0 +1,21 @@
+uuid: 794d0a66-aa07-4dc6-9324-0abb0c30d44c
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: nnGqq4U3qwpeTg5Vce7VNuUhiSzqWC0fYXagHbWoiR8
+id: user_profile_language
+label: 'User edit multilingual'
+routes:
+  -
+    route_name: user.admin_create
+  -
+    route_name: entity.user.edit_form
+tips:
+  edit-user-language:
+    id: edit-user-language
+    plugin: text
+    label: 'User language'
+    body: "If <em>Language</em> module is installed, the <em>site language</em> appears.<br>Which allows for setting an account's preferred language for emails. This is also assumed to be the primary language of this account's profile information."
+    weight: 10
+    selector: '#edit-language'

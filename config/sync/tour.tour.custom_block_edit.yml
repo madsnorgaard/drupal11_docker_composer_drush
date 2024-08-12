@@ -1,0 +1,25 @@
+uuid: 0e084b02-00a2-4bb2-b2ed-175204b442f6
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: O4uqiXzLB4e4WXKcGQlnFoRnnA7a0BDQddOrn0KkMoY
+id: custom_block_edit
+label: 'Custom Block Edit'
+routes:
+  -
+    route_name: entity.block_content_type.edit_form
+tips:
+  editing-the-block:
+    id: editing-the-block
+    plugin: text
+    label: 'Editing the block'
+    weight: 1
+    body: 'Select the displayed tabs to edit the custom block fields, how they are displayed or to delete the custom block. '
+  revisions:
+    id: revisions
+    plugin: text
+    label: Revisions
+    weight: 2
+    selector: .form-item--revision
+    body: "Creating new revisions saves each change to a block's content. It is possible to then roll back to earlier revisions."

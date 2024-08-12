@@ -1,0 +1,25 @@
+uuid: e2b37432-70d1-4bcd-853b-152cc83b0016
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Q_SLrgihfEwIUSckhv1a-DcpV4cWdLXes5-Hbt-iij0
+id: field_ui_form_display
+label: 'Field UI form display'
+routes:
+  -
+    route_name: entity.entity_form_display.node.default
+tips:
+  introduction:
+    id: introduction
+    plugin: text
+    label: 'Manage form display'
+    weight: 1
+    body: 'Manage how the field forms are displayed when editing content by reordering fields or changing the widget settings.'
+  widget:
+    id: widget
+    plugin: text
+    label: Widget
+    weight: 2
+    selector: 'table.field-ui-overview > tbody > tr.tabledrag-leaf'
+    body: 'To show or hide the field choose drag dropdown icon.'

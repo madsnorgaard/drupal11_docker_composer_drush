@@ -1,0 +1,51 @@
+uuid: 998c80e7-0d56-4175-b0ed-70d3b875db02
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: ONKK4eRfsrXs6_SPAqau38evAez_qrL2_BsfkBL32xg
+id: tour_edit
+label: 'Edit tour'
+routes:
+  -
+    route_name: entity.tour.edit_form
+tips:
+  tour-page:
+    id: tour-page
+    plugin: text
+    label: 'Tour edit'
+    weight: -100
+    body: '<p>On this page you edit a tour.</p><p>Note that after saving a tour you need to make sure the tour file is copied for later use into a module config directory or into an issue queue.</p>'
+    position: top
+  tour-label:
+    id: tour-label
+    plugin: text
+    label: Label
+    weight: -99
+    selector: '#edit-label'
+    body: '<p>The label is for administrative purposed. Used by Tour UI to list a Tour.</p>'
+    position: bottom
+  module:
+    id: module
+    plugin: text
+    label: Module
+    weight: -98
+    selector: '#edit-module'
+    body: 'This is for declare a module dependency. The configuration system removes this tour when its module is uninstalled.'
+    position: bottom
+  tour-routes:
+    id: tour-routes
+    plugin: text
+    label: Routes
+    weight: -97
+    selector: '#edit-routes'
+    body: '<p>Here you define the route or routes a Tour should be displayed.</p><p>You may use <a href="https://www.drupal.org/project/devel">Devel module</a> to find the route.</p>'
+    position: bottom
+  tour-tips:
+    id: tour-tips
+    plugin: text
+    label: Tips
+    weight: -96
+    selector: '#edit-tips'
+    body: '<p>These are the tips.</p>'
+    position: top
