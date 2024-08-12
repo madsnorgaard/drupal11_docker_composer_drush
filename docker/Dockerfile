@@ -13,7 +13,9 @@ COPY config/* /opt/drupal/config/
 
 # Set ownership and permissions for /opt/drupal
 RUN mkdir -p /opt/drupal/web/sites/default/files/assets/js && \
-    mkdir -p /opt/drupal/web/sites/default/files/translations
+    mkdir -p /opt/drupal/web/sites/default/files/translations && \
+    chown -R www-data:www-data /opt/drupal && \
+    chmod -R 775 /opt/drupal
 
 # Set the working directory
 WORKDIR /opt/drupal
