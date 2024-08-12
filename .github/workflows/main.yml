@@ -123,9 +123,6 @@ jobs:
             chown -R webadmin:webadmin /home/webadmin/docker/drupal.madsnorgaard.net
             docker exec madsnorgaard_drupal composer install --prefer-dist --no-progress
 
-      - name: Install dependencies
-        run: docker exec -w /home/webadmin/docker/drupal.madsnorgaard.net -T drupal composer install --no-progress --prefer-dist --optimize-autoloader
-
       - name: Run Drush deploy hooks
         uses: appleboy/ssh-action@v0.1.2
         with:
