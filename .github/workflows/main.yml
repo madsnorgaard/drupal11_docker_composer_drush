@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  composer-setup:
+  composer-and-codesniffer:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
         run: vendor/bin/phpcs --standard=Drupal web/modules/custom web/themes/custom
 
   docker-setup:
-    needs: composer-setup
+    needs: composer-and-codesniffer
     runs-on: ubuntu-latest
     env:
       DB_NAME: ${{ secrets.DB_NAME }}
