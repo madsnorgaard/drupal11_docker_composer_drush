@@ -1,0 +1,7 @@
+name: 'Novicell Chatbot'
+type: module
+description: 'A chatbot module that provides information about Mads Nørgaard as a tech lead at Novicell and fetches updates from LinkedIn.'
+core_version_requirement: ^11
+package: Custom
+dependencies:
+  - drupal:block

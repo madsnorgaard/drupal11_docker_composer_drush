@@ -1,0 +1,7 @@
+novicell_chatbot.respond:
+  path: '/novicell-chatbot/respond'
+  defaults:
+    _controller: '\Drupal\novicell_chatbot\Controller\ChatbotController::respond'
+    _title: 'Novicell Chatbot Response'
+  requirements:
+    _permission: 'access content'
