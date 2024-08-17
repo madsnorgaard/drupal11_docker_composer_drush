@@ -16,6 +16,6 @@ tips:
     id: edit-user-language
     plugin: text
     label: 'User language'
-    body: "If <em>Language</em> module is installed, the <em>site language</em> appears.<br>Which allows for setting an account's preferred language for emails. This is also assumed to be the primary language of this account's profile information."
     weight: 10
     selector: '#edit-language'
+    body: "If <em>Language</em> module is installed, the <em>site language</em> appears.<br>Which allows for setting an account's preferred language for emails. This is also assumed to be the primary language of this account's profile information."

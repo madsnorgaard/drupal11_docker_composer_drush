@@ -23,40 +23,40 @@ tips:
     plugin: text
     label: 'The title field'
     weight: 2
-    body: 'Use this to name your page. The title is typically displayed as a headline at the top of the page.'
     selector: '#edit-title-wrapper'
+    body: 'Use this to name your page. The title is typically displayed as a headline at the top of the page.'
   node-content-region:
     id: node-content-region
     plugin: text
     label: 'Content fields'
     weight: 3
-    body: 'Use the fields in this region to <em>create</em> content.'
     selector: .layout-region__content
+    body: 'Use the fields in this region to <em>create</em> content.'
   node-form-options:
     id: node-form-options
     plugin: text
     label: 'Optional information'
     weight: 4
-    body: 'The rest of the settings are optional. They help control how and where your content is published on your site.'
     selector: '#edit-advanced'
+    body: 'The rest of the settings are optional. They help control how and where your content is published on your site.'
   node-form-preview:
     id: node-form-preview
     plugin: text
     label: 'Previewing content'
     weight: 5
-    body: 'Previewing shows you what your page will look like when published. This does not save your page or make it live.'
     selector: '#edit-preview'
+    body: 'Previewing shows you what your page will look like when published. This does not save your page or make it live.'
   node-form-published:
     id: node-form-published
     plugin: text
     label: 'Publishing content'
     weight: 6
-    body: 'Published checkbox determines if page is published or unpublished.'
     selector: .edit-status-wrapper
+    body: 'Published checkbox determines if page is published or unpublished.'
   node-form-submit:
     id: node-form-submit
     plugin: text
     label: 'Saving or deleting content'
     weight: 7
-    body: 'This is where you save or delete your pages. Saving updates them in your database; publishing makes them live and public on your site.'
     selector: '#edit-actions'
+    body: 'This is where you save or delete your pages. Saving updates them in your database; publishing makes them live and public on your site.'

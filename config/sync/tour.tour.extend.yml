@@ -21,68 +21,68 @@ tips:
     plugin: text
     label: 'Viewing core modules'
     weight: 1
-    body: 'The <em>Core</em> modules group contains the modules that are included in Drupal by default. Contributed modules found on drupal.org will be placed in other groups. You can disable core modules if no other modules depend on them.'
-    selector: '#edit-modules-core summary'
     position: top
+    selector: '#edit-modules-core summary'
+    body: 'The <em>Core</em> modules group contains the modules that are included in Drupal by default. Contributed modules found on drupal.org will be placed in other groups. You can disable core modules if no other modules depend on them.'
   extend-open-details:
     id: extend-open-details
     plugin: text
     label: 'Viewing details'
     weight: 2
-    body: 'Click on the module description for more information. If the module is enabled you will find links to the configuration and permissions pages.'
-    selector: '.system-modules tr:first-child td:nth-child(3)'
     position: bottom
+    selector: '.system-modules tr:first-child td:nth-child(3)'
+    body: 'Click on the module description for more information. If the module is enabled you will find links to the configuration and permissions pages.'
   extend-enabling:
     id: extend-enabling
     plugin: text
     label: 'Enabling modules'
     weight: 3
-    body: 'Select one or more modules and click the <em>Install</em> button at the bottom of the page to enable them.'
-    selector: '.system-modules tr:first-child td:first-child'
     position: bottom
+    selector: '.system-modules tr:first-child td:first-child'
+    body: 'Select one or more modules and click the <em>Install</em> button at the bottom of the page to enable them.'
   extend-adding:
     id: extend-adding
     plugin: text
     label: 'Adding contributed modules'
     weight: 4
-    body: 'Add contributed modules or themes by providing a link to an archive files or by uploading an archive file.'
-    selector: .action-links
     position: bottom
+    selector: .action-links
+    body: 'Add contributed modules or themes by providing a link to an archive files or by uploading an archive file.'
   extend-search:
     id: extend-search
     plugin: text
     label: 'Searching modules'
     weight: 5
-    body: 'Filter the list of modules by entering a part of the module name.'
-    selector: .form-search
     position: bottom
+    selector: .form-search
+    body: 'Filter the list of modules by entering a part of the module name.'
   extend-update:
     id: extend-update
     plugin: text
     label: 'Updating modules'
     weight: 6
-    body: 'View modules that have updates available.'
-    selector: '.tabs a[href="/admin/modules/update"]'
     position: bottom
+    selector: '.tabs a[href="/admin/modules/update"]'
+    body: 'View modules that have updates available.'
   extend-uninstall:
     id: extend-uninstall
     plugin: text
     label: 'Uninstalling modules'
     weight: 7
-    body: 'You can uninstall modules that you are not using. This can result in increased site performance.'
-    selector: '.tabs a[href="/admin/modules/uninstall"]'
     position: bottom
+    selector: '.tabs a[href="/admin/modules/uninstall"]'
+    body: 'You can uninstall modules that you are not using. This can result in increased site performance.'
   extend-save:
     id: extend-save
     plugin: text
     label: 'Saving changes'
     weight: 8
-    body: 'To enable modules, select them and click <em>Install</em>.'
-    selector: '#edit-actions'
     position: top
+    selector: '#edit-actions'
+    body: 'To enable modules, select them and click <em>Install</em>.'
   extend-more:
     id: extend-more
     plugin: text
     label: 'More information'
-    body: 'For more information, see <a href="/admin/help/system">the help text</a> and <a href="https://www.drupal.org/docs/user_guide/en/index.html">the online documentation</a>.'
     weight: 9
+    body: 'For more information, see <a href="/admin/help/system">the help text</a> and <a href="https://www.drupal.org/docs/user_guide/en/index.html">the online documentation</a>.'

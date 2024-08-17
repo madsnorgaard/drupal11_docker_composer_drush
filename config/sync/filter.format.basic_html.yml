@@ -8,7 +8,7 @@ _core:
   default_config_hash: mufoCrfOvOmGXWBLRwQblEQbGEKQz09rnTbXnuVGC9o
 name: 'Basic HTML'
 format: basic_html
-weight: 0
+weight: -9
 filters:
   editor_file_reference:
     id: editor_file_reference

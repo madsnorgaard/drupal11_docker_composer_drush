@@ -14,34 +14,34 @@ tips:
     id: people-main
     plugin: text
     label: 'Managing users'
-    body: 'View and edit user accounts.'
     weight: 1
+    body: 'View and edit user accounts.'
   people-add:
     id: people-add
     plugin: text
     label: 'Add a user'
-    body: 'Create a new user account.'
     weight: 2
     selector: .button--primary
+    body: 'Create a new user account.'
   people-filter:
     id: people-filter
     plugin: text
     label: 'Search for users'
-    body: 'Find users by applying filters.'
     weight: 3
     selector: '#views-exposed-form-user-admin-people-page-1'
+    body: 'Find users by applying filters.'
   people-operations:
     id: people-operations
     plugin: text
     label: 'Update accounts'
-    body: 'Apply changes after selecting one or more accounts via the checkboxes.'
     weight: 4
     selector: '#edit-submit--2'
+    body: 'Apply changes after selecting one or more accounts via the checkboxes.'
   people-edit:
     id: people-edit
     plugin: text
     label: 'Edit user account'
-    body: 'Make changes to one user account.'
     weight: 5
     position: left
     selector: .dropbutton-widget
+    body: 'Make changes to one user account.'

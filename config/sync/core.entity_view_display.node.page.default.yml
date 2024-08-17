@@ -4,8 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.node.page.body
+    - field.field.node.page.field_image
+    - image.style.wide
     - node.type.page
   module:
+    - image
     - text
     - user
 _core:
@@ -21,6 +24,17 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 100
+    region: content
+  field_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: wide
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 102
     region: content
   links:
     weight: 101

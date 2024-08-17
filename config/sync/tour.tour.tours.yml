@@ -15,28 +15,28 @@ tips:
     plugin: text
     label: 'Getting started'
     weight: -100
-    body: 'On this page you can manage tours.'
     position: top
+    body: 'On this page you can manage tours.'
   adding-tours:
     id: adding-tours
     plugin: text
     label: 'Adding tours'
     weight: -100
+    position: top
     selector: '.action-links a[href="/admin/config/user-interface/tour/add'
     body: "When adding Tours you need to know on what page(s) more specific route(s) they must be present.\r\n\r\n<h3>Routes</h3>\r\n\r\nYou can install the <a href=\"https://www.drupal.org/project/devel\">Devel</a> module then visit <a href=\"/devel/routes\">/devel/routes</a> to find the Route by entering the URL path on that page."
-    position: top
   edit-tour:
     id: edit-tour
     plugin: text
     label: 'Edit tour'
     weight: -100
+    position: left
     selector: .dropbutton-action
     body: '<p>Here you can choose what actions to apply to your tour.</p><p>When installing <a href="https://www.drupal.org/project/tour_builder">Tour Builder</a> you can ie clone tours.</p>'
-    position: left
   share-tours:
     id: share-tours
     plugin: text
     label: 'Share Tours'
     weight: -100
-    body: "After creating or updating a Tour you maybe want to share it.\r\n\r\n<h3>Configuration management</h3>\r\n\r\nYou can export a single item as a YAML file. Make sure not to share the <strong>uuid</strong> row and <strong>_core</strong> values\r\n\r\n<h3>Tour builder</h3>\r\n\r\nYou can also use the <a href=\"https://www.drupal.org/project/tour_builder\">Tour Builder</a> module which tries to ease the export and patch workflow."
     position: top
+    body: "After creating or updating a Tour you maybe want to share it.\r\n\r\n<h3>Configuration management</h3>\r\n\r\nYou can export a single item as a YAML file. Make sure not to share the <strong>uuid</strong> row and <strong>_core</strong> values\r\n\r\n<h3>Tour builder</h3>\r\n\r\nYou can also use the <a href=\"https://www.drupal.org/project/tour_builder\">Tour Builder</a> module which tries to ease the export and patch workflow."

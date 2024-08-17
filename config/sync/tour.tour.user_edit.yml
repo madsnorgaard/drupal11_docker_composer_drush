@@ -14,40 +14,40 @@ tips:
     id: user-edit-overview
     plugin: text
     label: 'Edit User'
-    body: 'The "Edit User" page allows you to reset a user&lsquo;s password, user name, email, status and roles.'
     weight: 1
+    body: 'The "Edit User" page allows you to reset a user&lsquo;s password, user name, email, status and roles.'
   edit-current-pass:
     id: edit-current-pass
     plugin: text
     label: 'Password Credentials'
-    body: 'The <em>current password</em> is needed for the user to set a new <em>password</em> themselves.'
     weight: 2
     selector: '#edit-current-pass'
+    body: 'The <em>current password</em> is needed for the user to set a new <em>password</em> themselves.'
   edit-mail:
     id: edit-mail
     plugin: text
     label: 'Login Credentials'
-    body: 'The <em>email address</em> has to be unique.'
     weight: 3
     selector: '#edit-mail'
+    body: 'The <em>email address</em> has to be unique.'
   edit-username:
     id: edit-username
     plugin: text
     label: Username
-    body: 'The username has to be unique.  It is how the sites Administrators will identify the user.'
     weight: 4
     selector: '#edit-name'
+    body: 'The username has to be unique.  It is how the sites Administrators will identify the user.'
   edit-status:
     id: edit-status
     plugin: text
     label: 'The status'
-    body: 'The status determines if the user is able to login or not. It&lsquo;s useful in case that new accounts need administrator approval before being active. The default value for new accounts can be changed in the <a href="[site:url]admin/config/people/accounts#edit-registration-cancellation">account settings</a>.'
     weight: 5
     selector: '#edit-status'
+    body: 'The status determines if the user is able to login or not. It&lsquo;s useful in case that new accounts need administrator approval before being active. The default value for new accounts can be changed in the <a href="[site:url]admin/config/people/accounts#edit-registration-cancellation">account settings</a>.'
   edit-user-picture:
     id: edit-user-picture
     plugin: text
     label: 'User Picture'
-    body: 'Uploading a picture is a great way to help identify users.'
     weight: 6
     selector: '#edit-user-picture-0-upload'
+    body: 'Uploading a picture is a great way to help identify users.'

@@ -14,41 +14,41 @@ tips:
     id: page-overview
     plugin: text
     label: 'Site appearance'
-    body: "Your site's appearance is controlled by themes. They control the design, layout, structure, and other visual elements."
     weight: 1
+    body: "Your site's appearance is controlled by themes. They control the design, layout, structure, and other visual elements."
   default-theme:
     id: default-theme
     plugin: text
     label: 'Default theme'
-    body: 'The default theme is the primary user-facing theme that is shown to visitors of your website.'
     weight: 2
     selector: .theme-default
+    body: 'The default theme is the primary user-facing theme that is shown to visitors of your website.'
   theme-settings:
     id: theme-settings
     plugin: text
     label: 'Theme settings'
-    body: 'Different themes provide different configurable options. For instance, some allow you to choose your own colors, some have settings specific to responsive (mobile) layouts, and others allow you to choose different style variations.'
     weight: 3
     selector: '.theme-default .operations a'
+    body: 'Different themes provide different configurable options. For instance, some allow you to choose your own colors, some have settings specific to responsive (mobile) layouts, and others allow you to choose different style variations.'
   disabled-themes:
     id: disabled-themes
     plugin: text
     label: 'Change the theme'
-    body: 'Change the appearance of your site by enabling a new theme and setting it as the default. You can download additional contributed themes from <a href="https://www.drupal.org/project/project_theme">Drupal.org</a>.'
     weight: 4
     selector: .system-themes-list--uninstalled
+    body: 'Change the appearance of your site by enabling a new theme and setting it as the default. You can download additional contributed themes from <a href="https://www.drupal.org/project/project_theme">Drupal.org</a>.'
   admin-theme:
     id: admin-theme
     plugin: text
     label: 'Admin theme'
-    body: 'The admin theme has a different look and layout from the default theme, and is used primarily on site administration pages.'
     weight: 5
     selector: .theme-admin
+    body: 'The admin theme has a different look and layout from the default theme, and is used primarily on site administration pages.'
   set-admin-theme:
     id: set-admin-theme
     plugin: text
     label: 'Change the admin theme'
-    body: 'Choose the theme that will be used for all administration pages and optionally for content creation and editing pages.'
     weight: 6
     position: bottom
     selector: '#edit-admin-theme--2'
+    body: 'Choose the theme that will be used for all administration pages and optionally for content creation and editing pages.'
