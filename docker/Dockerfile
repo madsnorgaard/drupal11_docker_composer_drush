@@ -5,6 +5,10 @@ RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends git nano default-mysql-client unzip
 
+# Install Redis extension using pecl
+RUN pecl install redis \
+    && docker-php-ext-enable redis
+
 # Create the necessary directories and set permissions
 RUN mkdir -p /opt/drupal/web/sites/default/files && \
     mkdir -p /opt/drupal/web/sites/default/files/assets/js && \

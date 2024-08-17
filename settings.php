@@ -31,7 +31,7 @@ $settings['config_sync_directory'] = '../config/sync';
 
 $config['config_split.config_split.develop']['status'] = strtolower(getenv('CONFIG_SPLIT_DEVELOPMENT')) === 'true';
 
-if (extension_loaded('redis') && !empty(getenv('REDIS_HOST'))) {
+if (extension_loaded('redis')) {
     $settings['redis.connection']['interface'] = 'PhpRedis';
     $settings['redis.connection']['host'] = getenv('REDIS_HOST');
     $settings['redis.connection']['port'] = '6379';
