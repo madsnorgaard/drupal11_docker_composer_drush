@@ -2,9 +2,9 @@ _core:
   default_config_hash: VDJxTZtQR21qB4lvOq8zszJZLvLKrSPQpdn2E3T71Ww
 langcode: en
 uuid: f9182b67-8fad-4edf-90da-85607ddfe458
-name: 'Mads Nørgaard'
+name: 'Drupal dev with Mads Nørgaard'
 mail: madsnorgaard@live.dk
-slogan: 'My Drupal 10 development project'
+slogan: 'My Drupal 11 development project'
 page:
   403: ''
   404: ''
