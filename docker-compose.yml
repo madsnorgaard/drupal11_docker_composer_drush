@@ -63,6 +63,7 @@ services:
     working_dir: /opt/drupal
     volumes:
       - ./web:/opt/drupal/web
+      - ./backups:/opt/drupal/backups
       - ./composer.json:/opt/drupal/composer.json
       - ./composer.lock:/opt/drupal/composer.lock
       - ./settings.php:/opt/drupal/web/sites/default/settings.php
