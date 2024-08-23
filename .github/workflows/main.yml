@@ -122,7 +122,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /home/webadmin/docker/drupal.madsnorgaard.net
-            docker exec -it madsnorgaard_drupal drush sql-dump --gzip --result-file=/opt/drupal/backups/drupal.madsnorgaard.net-$(date +%Y-%m-%d-%H-%M-%S).sql
+            docker exec madsnorgaard_drupal drush sql-dump --gzip --result-file=/opt/drupal/backups/drupal.madsnorgaard.net-$(date +%Y-%m-%d-%H-%M-%S).sql
 
       - name: Deploy to VPS and Install dependencies
         uses: appleboy/ssh-action@v0.1.2
