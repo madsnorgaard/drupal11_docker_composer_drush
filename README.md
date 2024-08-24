@@ -62,10 +62,39 @@ When a version update is needed, use `composer update vendor/package`.
 
 On first run, the `composer.lock` file was generated using `composer update` without further parameters.
 
-#### Running tests (coming soon)
+#### Running tests
+
+Ok, so there is no huge test suite or coverage but we ride on the wings of fellow community members and Codesniffer in our pipeline per below standards:
 
    ```sh
+     composer-and-codesniffer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run PHP CodeSniffer for Drupal 11
+        run: vendor/bin/phpcs --standard=Drupal web/modules/custom web/themes/custom
    ```
 
 
