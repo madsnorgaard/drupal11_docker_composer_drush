@@ -11,12 +11,12 @@ jobs:
   composer-and-codesniffer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           tools: composer:v2
 
       - name: Validate composer.json and composer.lock
@@ -24,7 +24,7 @@ jobs:
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -59,7 +59,7 @@ jobs:
         run: |
           rm -rf ./* ./.??*
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -82,14 +82,9 @@ jobs:
         run: |
           docker network ls | grep -wq web || docker network create web
 
-      - name: Install Docker Compose
-        run: |
-          curl -L "https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          chmod +x /usr/local/bin/docker-compose
-
       - name: Start Docker containers
         run: |
-          docker-compose up -d --build
+          docker compose up -d --build
 
   deploy:
     needs: docker-setup
@@ -103,7 +98,7 @@ jobs:
           clean: false
 
       - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
+        uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
@@ -114,7 +109,7 @@ jobs:
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Backup Drupal database
-        uses: appleboy/ssh-action@v0.1.2
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SSH_USERNAME }}
@@ -125,7 +120,7 @@ jobs:
             docker exec madsnorgaard_drupal drush sql-dump --gzip --result-file=/opt/drupal/backups/drupal.madsnorgaard.net-$(date +%Y-%m-%d-%H-%M-%S).sql
 
       - name: Deploy to VPS and Install dependencies
-        uses: appleboy/ssh-action@v0.1.2
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SSH_USERNAME }}
@@ -134,12 +129,12 @@ jobs:
           script: |
             cd /home/webadmin/docker/drupal.madsnorgaard.net
             git pull
-            docker-compose up -d --build > /dev/null 2>&1
+            docker compose up -d --build > /dev/null 2>&1
             chown -R webadmin:webadmin /home/webadmin/docker/drupal.madsnorgaard.net
             docker exec madsnorgaard_drupal composer install --prefer-dist --no-progress
 
       - name: Run Drush deploy hooks
-        uses: appleboy/ssh-action@v0.1.2
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SSH_USERNAME }}
@@ -157,7 +152,7 @@ jobs:
             docker exec madsnorgaard_drupal drush cr
 
       - name: Check services
-        uses: appleboy/ssh-action@v0.1.2
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SSH_USERNAME }}

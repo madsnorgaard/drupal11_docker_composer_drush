@@ -1,14 +1,14 @@
 name: drupal.madsnorgaard.net
-type: drupal10
+type: drupal11
 docroot: web
-php_version: "8.3"
+php_version: "8.4"
 webserver_type: nginx-fpm
 xdebug_enabled: false
 additional_hostnames: []
 additional_fqdns: []
 database:
     type: mariadb
-    version: "10.6"
+    version: "11.4"
 use_dns_when_possible: true
 composer_version: "2"
 web_environment: []

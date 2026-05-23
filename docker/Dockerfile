@@ -1,4 +1,4 @@
-FROM drupal:11-php8.3-apache
+FROM drupal:11-php8.4-apache
 
 # Install necessary packages
 RUN set -eux; \

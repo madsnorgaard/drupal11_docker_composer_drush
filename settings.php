@@ -1,7 +1,5 @@
 <?php
 
-use phpDocumentor\Reflection\PseudoTypes\False_;
-
 $databases = [];
 $databases['default']['default'] = array(
   'database' => getenv('DB_NAME'),
@@ -9,16 +7,17 @@ $databases['default']['default'] = array(
   'password' => getenv('DB_PASS'),
   'prefix' => '',
   'host' => getenv('DB_HOST'),
-  'port' => getenv('DB_PORT' ?: '3306'),
-  'namespace' => 'Drupal\Core\Database\Driver\mysql',
+  'port' => getenv('DB_PORT') ?: '3306',
+  'namespace' => 'Drupal\mysql\Driver\Database\mysql',
   'driver' => 'mysql',
+  'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
 );
 
 $settings['hash_salt'] = getenv('HASH_SALT');
 $settings['update_free_access'] = false;
 $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
 
-$settings['trusted_host_patterns'][] = getenv('TRUSTED_HOSTS');
+$settings['trusted_host_patterns'][] = getenv('TRUSTED_HOST_PATTERNS');
 
 $settings['file_scan_ignore_directories'] = [
   'node_modules',
@@ -27,16 +26,15 @@ $settings['file_scan_ignore_directories'] = [
 $settings['entity_update_batch_size'] = 100;
 $settings['entity_update_backup'] = true;
 $settings['migrate_node_migrate_type_classic'] = false;
-$settings['config_sync_directory'] = '../config/sync';
 
 $config['config_split.config_split.develop']['status'] = strtolower(getenv('CONFIG_SPLIT_DEVELOPMENT')) === 'true';
 
 if (extension_loaded('redis')) {
     $settings['redis.connection']['interface'] = 'PhpRedis';
     $settings['redis.connection']['host'] = getenv('REDIS_HOST');
-    $settings['redis.connection']['port'] = '6379';
+    $settings['redis.connection']['port'] = getenv('REDIS_PORT') ?: '6379';
     $settings['cache']['default'] = 'cache.backend.redis';
-    $settings['cache_prefix'] = 'drupal9_redis_';
+    $settings['cache_prefix'] = 'drupal11_redis_';
 }
 
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {

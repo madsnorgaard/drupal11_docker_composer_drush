@@ -1,7 +1,7 @@
 [![CI/CD Workflow](https://github.com/madsnorgaard/drupal11_docker_composer_drush/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/madsnorgaard/drupal11_docker_composer_drush/actions/workflows/main.yml)
 
 # Project description
-This project includes Drupal 11, Drush 13, Composer install of Drupal Recommended Project and can be used to develop, stage or put into production any Drupal 11 project.
+This project includes Drupal 11.3, Drush 13, PHP 8.4 and a Composer install of the Drupal Recommended Project, and can be used to develop, stage or put into production any Drupal 11 project.
 
 Also included are drush/config-extra and other utilities for CI/CD in terms of a Drupal project - site updates, database schema updates, database backups, push of databases via git, backup of files, replication of production environments and much more.
 
@@ -17,7 +17,7 @@ The thought behind this approach is to prepare the environment and tools needed 
 For development purposes this project can be started with:
 
    ```sh
-   $ docker-compose up -d
+   $ docker compose up -d
    ```
 
 Drupal 11 will be available via [localhost:9998](http://localhost:9998/)
@@ -49,7 +49,7 @@ To install modules or other dependencies strictly use Composer. Installed depend
 Use `composer require` to add and install new packages. Alternatively add the requirement to `composer.json` and run `composer install`.
 
    ```sh
-    $ docker-compose exec -T drupal composer require "vendor/package:2.*"
+    $ docker compose exec -T drupal composer require "vendor/package:2.*"
    ```
 
 #### Updating dependencies
@@ -57,7 +57,7 @@ Use `composer require` to add and install new packages. Alternatively add the re
 When a version update is needed, use `composer update vendor/package`.
 
    ```sh
-   $ docker-compose exec -T drupal composer update vendor/package
+   $ docker compose exec -T drupal composer update vendor/package
    ```
 
 On first run, the `composer.lock` file was generated using `composer update` without further parameters.
@@ -70,12 +70,12 @@ Ok, so there is no huge test suite or coverage but we ride on the wings of fello
      composer-and-codesniffer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           tools: composer:v2
 
       - name: Validate composer.json and composer.lock
@@ -83,7 +83,7 @@ Ok, so there is no huge test suite or coverage but we ride on the wings of fello
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -102,7 +102,7 @@ Ok, so there is no huge test suite or coverage but we ride on the wings of fello
 Run Drush commands using - this command provides a full list of useful Drush commands:
 
    ```sh
-   $ docker-compose exec -T drupal ./drush
+   $ docker compose exec -T drupal ./drush
    ```
 
 #### Backup of database using Drush and Docker
