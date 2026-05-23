@@ -2,7 +2,6 @@
 logs/
 redis/
 vendor/
-composer.lock
 drupal/
 .gitattributes
 private/

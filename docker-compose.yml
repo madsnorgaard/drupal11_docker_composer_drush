@@ -11,7 +11,6 @@ services:
     env_file:
     - .env
     restart: always
-    user: "1000"
     environment:
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_USER: "${DB_USER}"
@@ -96,7 +95,7 @@ services:
       - madsnorgaard_redis
 
   madsnorgaard_redis:
-    image: library/redis:latest
+    image: redis:7-alpine
     container_name: madsnorgaard_redis
     volumes:
       - ./data/redis:/data
@@ -115,7 +114,7 @@ services:
         max-size: "50m"
 
   madsnorgaard_solr:
-    image: solr:8.11.2
+    image: solr:9.9
     container_name: madsnorgaard_solr
     ports:
      - "8983:8983"
