@@ -87,6 +87,12 @@ services:
       - "traefik.http.middlewares.madsnorgaard_drupal-secure-www-redirect.redirectregex.permanent=true"
       - "traefik.http.middlewares.web-www-https-redirect.redirectregex.permanent=true"
       - "traefik.http.routers.drupal.middlewares=web-www-https-redirect"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -o /dev/null http://localhost/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
     networks:
       - internal
       - web

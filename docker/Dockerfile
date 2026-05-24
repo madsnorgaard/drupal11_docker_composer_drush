@@ -3,7 +3,7 @@ FROM drupal:11-php8.4-apache
 # Install necessary packages
 RUN set -eux; \
     apt-get update; \
-    apt-get install -y --no-install-recommends git nano default-mysql-client unzip
+    apt-get install -y --no-install-recommends git nano default-mysql-client unzip curl
 
 # Install Redis extension using pecl
 RUN pecl install redis \

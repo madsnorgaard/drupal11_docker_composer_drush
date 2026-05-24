@@ -1,0 +1,39 @@
+version: 2
+updates:
+  # PHP / Drupal dependencies.
+  - package-ecosystem: composer
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+    groups:
+      drupal:
+        patterns:
+          - "drupal/*"
+          - "drush/*"
+
+  # Dockerfile base image.
+  - package-ecosystem: docker
+    directory: "/docker"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+
+  # docker-compose service images (redis, solr, mariadb, phpmyadmin).
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+
+  # GitHub Actions used in the workflow.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
