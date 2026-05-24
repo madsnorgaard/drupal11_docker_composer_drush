@@ -90,3 +90,8 @@ data/drupal/web/sites/*/private
 *.sql
 /sql
 *.sql.gz
+
+# Test and static-analysis caches
+.phpunit.cache/
+.phpunit.result.cache
+web/sites/simpletest/

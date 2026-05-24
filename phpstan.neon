@@ -1,0 +1,11 @@
+# phpstan-drupal, the deprecation rules and the phpunit rules are auto-registered
+# through phpstan/extension-installer, so they are not included here on purpose.
+parameters:
+    level: 1
+    paths:
+        - web/modules/custom
+        - web/themes/custom
+    # Raise the level (0-9) as your custom code grows. Level 1 is a gentle start
+    # that already catches undefined variables, unknown methods and the like.
+    excludePaths:
+        - */tests/fixtures/*

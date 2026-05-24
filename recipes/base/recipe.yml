@@ -1,0 +1,9 @@
+name: 'Project base'
+description: 'Enables the contrib modules that ship with this starter so a fresh site lands in a sensible state.'
+type: 'Site'
+install:
+  - admin_toolbar
+  - admin_toolbar_tools
+  - pathauto
+  - redis
+  - tour
