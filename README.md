@@ -9,14 +9,17 @@ This is a terminal built environment based on the minimal install profile and th
 
 The thought behind this approach is to prepare the environment and tools needed to always be running an updated system with a modern proactive approach. The main goal is to have a fully automated production ready installation. Thus this project includes no modules, dependencies or themes not needed for the project beforehand, making it more manageable and minimal in terms of maintenance.
 
+To keep that "always updated" promise honest there is a bit of tooling baked in: PHPStan and PHP CodeSniffer for static checks, Rector and `drupal/upgrade_status` for surviving core upgrades, `composer audit` as a security gate, PHPUnit wired up for when you add custom code, and Dependabot opening the version bump PRs so you do not have to chase them.
+
 ## Development
 
 
 ### Run with Docker
 
-For development purposes this project can be started with:
+For development purposes copy the example env file, fill in your values, then start it:
 
    ```sh
+   $ cp .env.example .env
    $ docker compose up -d
    ```
 
@@ -30,6 +33,8 @@ Rename your project or set your frontpage url:
 - [go to your basic settings page via GUI](http://localhost:9998/admin/config/system/site-information)
 - fill in the field "Default front page" with `/node`
 - [visit the frontpage](http://localhost:9998/)
+
+There is also a small starter recipe in `recipes/base` that enables the bundled contrib modules in one go - see `recipes/README.md`.
 
 #### Fix file and cache permissions:
 
@@ -64,7 +69,7 @@ On first run, the `composer.lock` file was generated using `composer update` wit
 
 #### Running tests
 
-Ok, so there is no huge test suite or coverage but we ride on the wings of fellow community members and Codesniffer in our pipeline per below standards:
+Ok, so there is still no huge test suite of our own, but we ride on the wings of fellow community members. The pipeline runs CodeSniffer, PHPStan and `composer audit`, and PHPUnit is wired up (see `phpunit.xml.dist`) for the day you drop custom code into `web/modules/custom`:
 
    ```sh
      composer-and-codesniffer:
@@ -93,9 +98,32 @@ Ok, so there is no huge test suite or coverage but we ride on the wings of fello
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
+      - name: Audit dependencies for known security advisories
+        run: composer audit
+
       - name: Run PHP CodeSniffer for Drupal 11
         run: vendor/bin/phpcs --standard=Drupal web/modules/custom web/themes/custom
+
+      - name: Run PHPStan static analysis
+        run: vendor/bin/phpstan analyse --no-progress
    ```
+
+#### Static analysis, Rector and upgrades
+
+Run the same checks locally before you push:
+
+   ```sh
+   $ docker compose exec -T drupal vendor/bin/phpstan analyse
+   $ docker compose exec -T drupal composer audit
+   ```
+
+Rector rewrites deprecated API calls in your own code so it keeps working across core minors:
+
+   ```sh
+   $ docker compose exec -T drupal vendor/bin/rector process --dry-run
+   ```
+
+And when a new core major is on the horizon, enable `drupal/upgrade_status` and it tells you what still needs love. Deploys use `drush deploy`, which runs database updates, config import, cache rebuild and deploy hooks in the right order.
 
 
 ### Using Drush

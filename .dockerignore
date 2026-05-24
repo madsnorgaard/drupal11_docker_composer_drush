@@ -1,0 +1,21 @@
+# Keep the build context small. The Dockerfile only copies composer.json,
+# composer.lock, settings.php and config/, so everything else is excluded.
+.git
+.github
+.ddev
+.idea
+.vscode
+node_modules
+vendor
+web
+data
+backups
+.env
+*.sql
+*.sql.gz
+*.tar
+*.pdf
+*.png
+*.md
+.phpunit.cache
+.phpunit.result.cache

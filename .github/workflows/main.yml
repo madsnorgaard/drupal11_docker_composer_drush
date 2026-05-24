@@ -34,8 +34,14 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
+      - name: Audit dependencies for known security advisories
+        run: composer audit
+
       - name: Run PHP CodeSniffer for Drupal 11
         run: vendor/bin/phpcs --standard=Drupal web/modules/custom web/themes/custom
+
+      - name: Run PHPStan static analysis
+        run: vendor/bin/phpstan analyse --no-progress
 
   docker-setup:
     needs: composer-and-codesniffer
@@ -142,13 +148,11 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /home/webadmin/docker/drupal.madsnorgaard.net
-            # Run deploy commands
-            docker exec madsnorgaard_drupal drush cr
-            docker exec madsnorgaard_drupal drush updb -y
-            docker exec madsnorgaard_drupal drush cr
-            docker exec madsnorgaard_drupal drush cim -y
-            docker exec madsnorgaard_drupal drush locale-check
-            docker exec madsnorgaard_drupal drush locale-update
+            # drush deploy runs database updates, config import, cache rebuild
+            # and deploy hooks in the correct order.
+            docker exec madsnorgaard_drupal drush deploy -y
+            docker exec madsnorgaard_drupal drush locale:check
+            docker exec madsnorgaard_drupal drush locale:update
             docker exec madsnorgaard_drupal drush cr
 
       - name: Check services
