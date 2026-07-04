@@ -109,7 +109,7 @@
         "drupal/coder": "^8.3",
         "drupal/core-dev": "^11",
         "drupal/upgrade_status": "^4.3",
-        "palantirnet/drupal-rector": "^0.21",
+        "palantirnet/drupal-rector": "^1.0",
         "phpstan/extension-installer": "^1.4",
         "squizlabs/php_codesniffer": "^3.13"
     }
