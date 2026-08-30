@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7de3ad4b64f5ccaba025750c43f402f9",
+    "content-hash": "7a83186ca31060885d967fedf27dbec9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1174,17 +1174,17 @@
         },
         {
             "name": "drupal/ai",
-            "version": "1.4.1",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/ai.git",
-                "reference": "1.4.1"
+                "reference": "1.4.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/ai-1.4.1.zip",
-                "reference": "1.4.1",
-                "shasum": "8f7ecf9b75194d306443c72ca686707a55334d46"
+                "url": "https://ftp.drupal.org/files/projects/ai-1.4.3.zip",
+                "reference": "1.4.3",
+                "shasum": ""
             },
             "require": {
                 "drupal/core": "^10.5 || ^11.2",
@@ -1214,7 +1214,7 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.4.1",
+                    "version": "1.4.3",
                     "datestamp": "1780493201",
                     "security-coverage": {
                         "status": "covered",
@@ -2260,7 +2260,7 @@
                     "email": "greg.1.anderson@greenknowe.org"
                 },
                 {
-                    "name": "Jonathan Araña Cruz",
+                    "name": "Jonathan Ara\u00f1a Cruz",
                     "email": "jonhattan@faita.net"
                 },
                 {
@@ -2558,7 +2558,7 @@
                     "homepage": "https://github.com/Nyholm"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com",
                     "homepage": "https://github.com/sagikazarmark"
                 },
@@ -2757,7 +2757,7 @@
                     "homepage": "https://github.com/Nyholm"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com",
                     "homepage": "https://github.com/sagikazarmark"
                 },
@@ -2767,7 +2767,7 @@
                     "homepage": "https://github.com/Tobion"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com",
                     "homepage": "https://sagikazarmark.hu"
                 }
@@ -3138,7 +3138,7 @@
             ],
             "authors": [
                 {
-                    "name": "Marco Marchiò",
+                    "name": "Marco Marchi\u00f2",
                     "email": "marco.mm89@gmail.com"
                 }
             ],
@@ -3688,7 +3688,7 @@
             ],
             "authors": [
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com"
                 }
             ],
@@ -4375,7 +4375,7 @@
                     "email": "ceesjank@gmail.com"
                 },
                 {
-                    "name": "Christian Lück",
+                    "name": "Christian L\u00fcck",
                     "email": "christian@clue.engineering"
                 },
                 {
@@ -8703,7 +8703,7 @@
             ],
             "authors": [
                 {
-                    "name": "gábor hojtsy",
+                    "name": "g\u00e1bor hojtsy",
                     "homepage": "https://www.drupal.org/user/4166"
                 }
             ],
@@ -8816,7 +8816,7 @@
                     "email": "igor@wiedler.ch"
                 },
                 {
-                    "name": "Robert Schönthal",
+                    "name": "Robert Sch\u00f6nthal",
                     "email": "seroscho@googlemail.com"
                 }
             ],
@@ -9815,7 +9815,7 @@
             ],
             "authors": [
                 {
-                    "name": "Dezső Biczó",
+                    "name": "Dezs\u0151 Bicz\u00f3",
                     "email": "mxr576@gmail.com"
                 },
                 {
@@ -9831,7 +9831,7 @@
                     "email": "nmd.matt@gmail.com"
                 },
                 {
-                    "name": "Björn Brala",
+                    "name": "Bj\u00f6rn Brala",
                     "email": "drupal@bjorn.dev"
                 },
                 {
@@ -10068,7 +10068,7 @@
                     "email": "geloen.eric@gmail.com"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com",
                     "homepage": "https://sagikazarmark.hu"
                 }
@@ -10122,7 +10122,7 @@
                     "email": "joel.wurtz@gmail.com"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com"
                 }
             ],
@@ -10565,7 +10565,7 @@
             ],
             "authors": [
                 {
-                    "name": "Ondřej Mirtes"
+                    "name": "Ond\u0159ej Mirtes"
                 },
                 {
                     "name": "Markus Staab"
@@ -11356,7 +11356,7 @@
                     "homepage": "https://sorgalla.com/"
                 },
                 {
-                    "name": "Christian Lück",
+                    "name": "Christian L\u00fcck",
                     "email": "christian@clue.engineering",
                     "homepage": "https://clue.engineering/"
                 },
@@ -12901,7 +12901,7 @@
                     "email": "fabien@symfony.com"
                 },
                 {
-                    "name": "Jean-François Simon",
+                    "name": "Jean-Fran\u00e7ois Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
                 },
                 {
@@ -13048,7 +13048,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jérémy Derussé",
+                    "name": "J\u00e9r\u00e9my Deruss\u00e9",
                     "email": "jeremy@derusse.com"
                 },
                 {
